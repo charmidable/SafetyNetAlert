@@ -5,7 +5,7 @@ import static   java.util.stream.Collectors.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-import com.openclassrooms.safetynet.repository.Repository;
+import com.openclassrooms.safetynet.repository.Repo;
 import com.openclassrooms.safetynet.entity.Firestation;
 import com.openclassrooms.safetynet.entity.Person;
 
@@ -22,7 +22,7 @@ public class RepositoryService
     // ======================================
     // =             Attributes             =
     // ======================================
-    private final Repository repo = Repository.getInstance();
+    private final Repo repo = Repo.getInstance();
 
 
     // ======================================

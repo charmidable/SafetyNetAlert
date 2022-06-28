@@ -2,16 +2,21 @@ package com.openclassrooms.safetynet.repository;
 
 import static   java.util.function.Function.identity;
 import static   java.util.stream.Collectors.*;
+
+import          java.time.LocalDate;
 import          java.util.List;
 import          java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.openclassrooms.safetynet.entity.Firestation;
 import com.openclassrooms.safetynet.entity.Medicalrecord;
 import com.openclassrooms.safetynet.entity.Person;
+import org.springframework.stereotype.Component;
 
-public final class Repository
+//@Component
+public final class Repo
 {
 
     // ================================
@@ -29,12 +34,12 @@ public final class Repository
     // ===============================
 
     @JsonCreator
-    public final static Repository getInstance()
+    public final static Repo getInstance()
     {
         return INSTANCE;
     }
 
-    private Repository()
+    private Repo()
     {
         initialize();
     }
@@ -44,7 +49,7 @@ public final class Repository
         return INSTANCE;
     }
 
-    private static final transient Repository INSTANCE = new Repository();
+    private static final transient Repo INSTANCE = new Repo();
 
 
     // ===================================
@@ -108,6 +113,28 @@ public final class Repository
     }
 
 
+    public void addMedicalRecord(Medicalrecord record)
+    {
+        medicalrecords.put(record.hashCode(), record);
+    }
+
+    public Medicalrecord removeMedicalRecord(int key)
+    {
+        return medicalrecords.remove(key);
+    }
+
+    public void addPerson(String firstName, String lastName, String address, LocalDate date)
+    {
+        Person person = new Person(firstName, lastName, address, date);
+    }
+
+    public void removePerson(Person person)
+    {
+        medicalrecords.remove(person.hashCode());
+        persons.remove(person.hashCode());
+    }
+
+
     // ==================================
     // =       Getters for Maps         =
     // ==================================
@@ -143,12 +170,6 @@ public final class Repository
                 ", firestations = " + firestations      +
                 ", persons = "      + persons           +
                 '}';
-    }
-
-
-    public void addMedicalRecord(Medicalrecord record)
-    {
-        medicalrecords.put(record.hashCode(), record);
     }
 
 

@@ -2,13 +2,14 @@ package com.openclassrooms.safetynet.service;
 
 import com.openclassrooms.safetynet.entity.Firestation;
 import com.openclassrooms.safetynet.entity.Person;
+import org.springframework.stereotype.Service;
 
 import static java.util.Arrays.asList;
 
 import java.util.List;
 import java.util.Map;
 
-
+@Service
 public class URLService
 {
 

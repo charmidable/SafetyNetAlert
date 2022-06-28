@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.openclassrooms.safetynet.repository.Repository;
+import com.openclassrooms.safetynet.repository.Repo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class Person
@@ -20,7 +21,8 @@ public class Person
     // ======================================
 
     private static  Map<Integer, Medicalrecord> medicalrecords;
-    private static  Repository                  repo;
+//    @Autowired
+    private static  Repo                        repo;
     private final   String                      firstName;
     private final   String                      lastName;
     private         String                      address;
@@ -48,6 +50,14 @@ public class Person
     {
         this.firstName  = firstName;
         this.lastName   = lastName;
+    }
+
+    public Person(String firstName, String lastName, String address, LocalDate date)
+    {
+        this.firstName  = firstName;
+        this.lastName   = lastName;
+        this.address    = address;
+        createAndAddMedicalRecord(this, date);
     }
 
 
@@ -123,22 +133,37 @@ public class Person
 
 
 
-    public static void setRepo(Repository repository)
+    public static void setRepo(Repo _repo)
     {
-        repo = repository;
+        repo = _repo;
     }
 
     public void createAndAddMedicalRecord(Person person, LocalDate birthdate)
     {
         repo.addMedicalRecord(
-                                new Medicalrecord(
+                               new Medicalrecord(
                                                     person.getFirstName(),
                                                     person.getLastName(),
                                                     birthdate,
                                                     new ArrayList<String>(),
                                                     new ArrayList<String>()
-                              )
-        );
+                                                 )
+                             );
+    }
+
+    public void setBirthdate(LocalDate date)
+    {
+        repo.removeMedicalRecord(hashCode());
+
+        repo.addMedicalRecord(
+                                new Medicalrecord(
+                                                    getFirstName(),
+                                                    getLastName(),
+                                                    birthdate = date,
+                                                    getAllergies(),
+                                                    getMedications()
+                                                 )
+                             );
     }
 
 
