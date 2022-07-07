@@ -1,17 +1,34 @@
 package com.openclassrooms.safetynet;
 
-import org.springframework.boot.SpringApplication;
+import java.io.IOException;
+
+import com.openclassrooms.safetynet.entity.Person;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static   com.openclassrooms.safetynet.dao.EntitiesDAO.*;
-import          com.openclassrooms.safetynet.repository.Repo;
+import com.openclassrooms.safetynet.dao.JsonDAO;
+import com.openclassrooms.safetynet.dao.EntitiesCollections;
+import com.openclassrooms.safetynet.repository.PersonRepo;
+import com.openclassrooms.safetynet.repository.FirestationRepo;
 
-import java.io.IOException;
 
 @SpringBootApplication
 public class SafetyNetApplication implements CommandLineRunner
 {
+    // ======================================
+    // =             Attributes             =
+    // ======================================
+
+    @Autowired private JsonDAO dao;
+    @Autowired private PersonRepo personRepo;
+    @Autowired private FirestationRepo firestationRepo;
+               private EntitiesCollections collections;
+
+    // ======================================
+    // =          Spring Methods            =
+    // ======================================
 
     public static void main(String[] args)
     {
@@ -21,34 +38,28 @@ public class SafetyNetApplication implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception
     {
-        try
-        {
-            loadJsonToRepo();
-            Thread.sleep(1000);
+        init();
+    }
 
-//            System.out.println(Repository.getInstance().getFirestations());
-            System.out.println(Repo.getInstance().getPersons());
-//
-////             new URLService().getPeopleByStationGroupingByAdress( 1, 4);
-//
-//            System.out.println(new RepositoryService().getAdressesCoveredByTheFireStation(4));
-//            System.out.println(new RepositoryService().getFamilyHouseWithChild());
-//
-////            System.out.println(new RepositoryService().getPeopleByStationNumber(1));
-//
-////            System.out.println("Person.repo == null : " + Person.repo == null);
-////            System.out.println(Person.repo);
-////            System.out.println(Person.repo.getClass());
-////
-////            System.out.println(Person.repo.getPerson(1));
-////            System.out.println(Person.repo.getMedicalRecord(1));
-////            System.out.println(Person.repo.getFireStation(1));
-                saveRepoToJson();
-        }
-        catch (IOException | InterruptedException e)
-        {
-            System.out.println("E X C E P T I O N");
-            e.printStackTrace();
-        }
+
+    // ======================================
+    // =           Tool Methods             =
+    // ======================================
+
+    private void init() throws IOException
+    {
+        collections = dao.loadFromJson();
+        initRepo();
+    }
+
+    private void initRepo()
+    {
+        firestationRepo .setCollections(collections);
+        personRepo      .setCollections(collections);
+    }
+
+    private void shutDown() throws Exception
+    {
+        dao.saveToJson(collections);
     }
 }

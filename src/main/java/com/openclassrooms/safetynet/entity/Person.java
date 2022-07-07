@@ -1,38 +1,33 @@
 package com.openclassrooms.safetynet.entity;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import          java.util.List;
+import          java.time.LocalDate;
+import static   java.util.stream.Collectors.joining;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.openclassrooms.safetynet.repository.Repo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 
 
+@Data
+@JsonFilter("person_filter")
 public class Person
 {
-
     // ======================================
     // =             Attributes             =
     // ======================================
 
-    private static  Map<Integer, Medicalrecord> medicalrecords;
-//    @Autowired
-    private static  Repo                        repo;
-    private final   String                      firstName;
-    private final   String                      lastName;
-    private         String                      address;
-    private         String                      city;
-    private         String                      phone;
-    private         String                      email;
-    private         int                         zip;
-    private         LocalDate                   birthdate;
-    private         List<String>                Medications;
-    private         List<String>                Allergies;
+    private final   String          firstName;
+    private final   String          lastName;
+    private         String          address;
+    private         String          city;
+    private         String          phone;
+    private         String          email;
+    private         int             zip;
+    private         Medicalrecord   medicalrecord;
 
 
     // ======================================
@@ -42,201 +37,96 @@ public class Person
     @JsonCreator
     public Person(
                     @JsonProperty("firstName")
-                    String firstName,
+                    String _firstName,
 
                     @JsonProperty("lastName")
-                    String lastName
+                    String _lastName
                  )
     {
-        this.firstName  = firstName;
-        this.lastName   = lastName;
-    }
-
-    public Person(String firstName, String lastName, String address, LocalDate date)
-    {
-        this.firstName  = firstName;
-        this.lastName   = lastName;
-        this.address    = address;
-        createAndAddMedicalRecord(this, date);
+        firstName       = _firstName;
+        lastName        = _lastName;
+        medicalrecord   = new Medicalrecord(firstName, lastName);
     }
 
 
     // ======================================
-    // =          Getters & Setters         =
+    // =   Delegate Medicalrecord Methods   =
     // ======================================
-
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-    public String getAddress()
-    {
-        return address;
-    }
-
-    public void setAddress(String address)
-    {
-        this.address = address;
-    }
-
-    public String getCity()
-    {
-        return city;
-    }
-
-    public void setCity(String city)
-    {
-        this.city = city;
-    }
-
-    public int getZip()
-    {
-        return zip;
-    }
-
-    public void setZip(int zip)
-    {
-        this.zip = zip;
-    }
-
-    public String getPhone()
-    {
-        return phone;
-    }
-
-    public void setPhone(String phone)
-    {
-        this.phone = phone;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
-
-
-    // ======================================
-    // =         Medical Information        =
-    // ======================================
-
-
-
-    public static void setRepo(Repo _repo)
-    {
-        repo = _repo;
-    }
-
-    public void createAndAddMedicalRecord(Person person, LocalDate birthdate)
-    {
-        repo.addMedicalRecord(
-                               new Medicalrecord(
-                                                    person.getFirstName(),
-                                                    person.getLastName(),
-                                                    birthdate,
-                                                    new ArrayList<String>(),
-                                                    new ArrayList<String>()
-                                                 )
-                             );
-    }
-
-    public void setBirthdate(LocalDate date)
-    {
-        repo.removeMedicalRecord(hashCode());
-
-        repo.addMedicalRecord(
-                                new Medicalrecord(
-                                                    getFirstName(),
-                                                    getLastName(),
-                                                    birthdate = date,
-                                                    getAllergies(),
-                                                    getMedications()
-                                                 )
-                             );
-    }
-
-
-    public Medicalrecord getMedicalRecord()
-    {
-        return repo.getMedicalrecordsMap().get(hashCode());
-    }
-
-
-    public LocalDate getBirthdate()
-    {
-        return this.getMedicalRecord().birthdate();
-    }
-
-
-
-    public final Integer getAge()
-    {
-        return LocalDate.now().getYear() - this.getMedicalRecord().birthdate().getYear();
-    }
-
-
-    public List<String> getMedications()
-    {
-        return getMedicalRecord().medications();
-    }
-
 
     public List<String> getAllergies()
     {
-        return getMedicalRecord().allergies();
+        return medicalrecord.getAllergies();
     }
 
-
-    public Boolean isChild()
+    public List<String> getMedications()
     {
-        return getAge() <= 18 ? true : false;
+        return medicalrecord.getMedications();
+    }
+
+    @JsonFormat(pattern = "MM/dd/yyyy")
+    public void setBirthdate(LocalDate birthdate)
+    {
+        medicalrecord.setBirthdate(birthdate);
+    }
+
+    public void setAllergies(List<String> allergies)
+    {
+        medicalrecord.setAllergies(allergies);
+    }
+
+    public void setMedications(List<String> medications)
+    {
+        medicalrecord.setMedications(medications);
     }
 
     public boolean addMedication(String medication)
     {
-        return getMedicalRecord().medications().add(medication);
-    }
-
-    public boolean addAllergie(String allergie)
-    {
-        return getMedicalRecord().allergies().add(allergie);
+        return medicalrecord.addMedication(medication);
     }
 
     public boolean removeMedication(String medication)
     {
-        return getMedicalRecord().medications().remove(medication);
+        return medicalrecord.removeMedication(medication);
+    }
+
+    public boolean addAllergie(String allergie)
+    {
+        return medicalrecord.addAllergie(allergie);
     }
 
     public boolean removeAllergie(String allergie)
     {
-        return getMedicalRecord().allergies().remove(allergie);
+        return medicalrecord.removeAllergie(allergie);
     }
 
     public void removeAllMedications()
     {
-        getMedicalRecord().medications().clear();
+        medicalrecord.removeAllMedications();
     }
 
     public void removeAllAllergies()
     {
-        getMedicalRecord().medications().clear();
+        medicalrecord.removeAllAllergies();
     }
 
-    public void clearMedicalRecords()
+    public void clearAllAllergiesAndMedications()
     {
-        removeAllMedications();
-        removeAllAllergies();
+        medicalrecord.clearAllAllergiesAndAllMedications();
+    }
+
+    public LocalDate getBirthdate()
+    {
+        return medicalrecord.getBirthdate();
+    }
+
+    public Integer getAge()
+    {
+        return LocalDate.now().getYear() - getBirthdate().getYear();
+    }
+
+    public boolean isChild()
+    {
+        return getAge() < 19;
     }
 
 
@@ -256,11 +146,10 @@ public class Person
                 ", phone="      + phone     +
                 ", email="      + email     +
                 ", birthdate="  + getBirthdate() +
-                ", allergies="  + getAllergies().stream().collect(Collectors.joining(", ", "{", "}")) +
-                ", medications="+ getMedications().stream().collect(Collectors.joining(", ", "{", "}")) +
+                ", allergies="  + getAllergies().stream().collect(joining(", ", "{", "}"))  +
+                ", medications="+ getMedications().stream().collect(joining(", ", "{", "}"))+
                 '}';
     }
-    
 
     @Override
     public final boolean equals(Object o)

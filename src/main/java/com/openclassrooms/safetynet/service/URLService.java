@@ -1,73 +1,115 @@
 package com.openclassrooms.safetynet.service;
 
-import com.openclassrooms.safetynet.entity.Firestation;
-import com.openclassrooms.safetynet.entity.Person;
-import org.springframework.stereotype.Service;
-
-import static java.util.Arrays.asList;
-
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.openclassrooms.safetynet.entity.Person;
+
 
 @Service
 public class URLService
 {
-
     // ======================================
     // =             Attributes             =
     // ======================================
-    private final RepositoryService repo = new RepositoryService();
+
+    @Autowired
+    PersonService personService;
+
+    @Autowired
+    FirestationService firestationService;
 
 
     // ======================================
     // =       Public Service Methods       =
     // ======================================
 
-    // firestation ? stationNumber = <station_number>
-    public List<Person> getPeopleByStationNumber(int stationNumber)
+    public Object firestation(int stationNumber)
     {
-        List<Person> personList = repo.getPeopleByStationNumber(stationNumber);
+        List<Person> personList = getPeopleByStationNumber(stationNumber);
 
         long numberOfChild = personList.stream().filter(Person::isChild).count();
 
         long numberOfAdult = personList.size() - numberOfChild;
 
-        return repo.getPeopleByStationNumber(stationNumber);
+        record Result(int stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people){}
+
+        return new Result(stationNumber, numberOfChild, numberOfAdult, personList);
     }
 
-    // childAlert ? address = <address>
-    public Map<Boolean, List<Person>> getFamilyWithChildByAdress(String address)
+
+    public Object childAlert(String address)
     {
-        return repo.getFamilyHouseWithChild(address);
+        Map<Boolean, List<Person>> map = personService.getFamilyHouseWithChildByAdress(address);
+
+        if(map.get(true).size() == 0) return "";
+
+        record Result(String adress, List<Person> childs, List<Person> adults){}
+
+        return new Result(address, map.get(true), map.get(false));
     }
 
-    // phoneAlert ? firestation = <firestation_number>
-    public List<Person> getPhoneNumberByStationNumber(int stationNumber)
+
+    public Object phoneAlert(int firestationNumber)
     {
-        return repo.getPeopleByStationNumber(stationNumber);
+        record Result(int stationNumber, List<String> people){}
+
+        return new Result(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
     }
 
-    // fire ? address = <address>
-    private final List<Person> getPeopleWithTheirFirestationByAdress(String adress)
+
+    public Object fire(String address)
     {
-        repo.getPersonsByAdress(adress);
-        repo.getFirestationByAdress(adress);
-        return null;
+        record Result(int stationNumber, String address, List<Person> people){}
+
+        return new Result(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAdress(address));
     }
 
-    // stations ? stations = <a list of station_numbers>
-    public Map<Integer, Map<String, Person>> getPeopleByStationGroupingByAdress(Integer... fireStationNumber)
+
+    public Map<Integer, Map<String, List<Person>>> flood(Integer... fireStationNumber)
     {
-        List<Firestation> firestationList = repo.getFirestationsList()
-                                                .stream()
-                                                .filter(station -> asList(fireStationNumber).contains(station.station())).toList();
-        System.out.println(firestationList);
-        return null;
+        List<Integer> numeros = List.of(fireStationNumber);
+
+        Map<Integer, Map<String, List<Person>>> floodResult = new HashMap<>();
+
+        numeros.stream().forEach(i -> floodResult.put(  i, new HashMap<String, List<Person>>()));
+
+        numeros.stream().forEach(i -> firestationService.getMap()
+               .get(i)
+               .forEach((String address) -> floodResult.get( i).put(address, personService.getPersonsByAdress(address))));
+
+        return floodResult;
     }
 
-//    public Person getPersonByName(String firstName, String lastName)
-//    {
-//        Person person =
-//    }
 
+    public Optional<Person> personInfo(String firstName, String lastName)
+    {
+        return personService.getPersonByName(firstName, lastName);
+    }
+
+
+    public Object communityEmail(String city)
+    {
+        record Result(String city, List<String> email){}
+
+        return new Result(city, personService.getEmailsOfAllTheCity(city));
+    }
+
+
+    // ======================================
+    // =        Private Tool Methods        =
+    // ======================================
+
+    private List<Person> getPeopleByStationNumber(int stationNumber)
+    {
+        return  personService.getPersons()
+                .stream()
+                .filter (person -> firestationService.getAdressesCoveredByTheFireStation(stationNumber).contains(person.getAddress()))
+                .toList();
+    }
 }

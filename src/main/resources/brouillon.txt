@@ -1,0 +1,34 @@
+person.hashcode
+
+-804949471
+1352492312
+-1905250186
+1769019289
+-2025153406
+26395867
+-239365359
+73827437
+217935190
+2105073652
+303686837
+239424405
+150406247
+80278393
+-2021929814
+-2081692839
+415880220
+2097504816
+-1839620287
+1874202606
+366108456
+904253816
+66454761
+
+
+
+Person{firstName=Shawna, lastName=Stelzer, address=947 E. Rose Dr, city=Culver, zip=97451, phone=841-874-7784, email=ssanw@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect},
+Person{firstName=Zach, lastName=Zemicks, address=892 Downing Ct, city=Culver, zip=97451, phone=841-874-7512, email=zarc@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect},
+Person{firstName=Ron, lastName=Peters, address=112 Steppes Pl, city=Culver, zip=97451, phone=841-874-8888, email=jpeter@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect},
+Person{firstName=Brian, lastName=Stelzer, address=947 E. Rose Dr, city=Culver, zip=97451, phone=841-874-7784, email=bstel@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect},
+ Person{firstName=Clive, lastName=Ferguson, address=748 Townings Dr, city=Culver, zip=97451, phone=841-874-6741, email=clivfd@ymail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Kendrik, lastName=Stelzer, address=947 E. Rose Dr, city=Culver, zip=97451, phone=841-874-7784, email=bstel@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Warren, lastName=Zemicks, address=892 Downing Ct, city=Culver, zip=97451, phone=841-874-7512, email=ward@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=John, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tessa, lastName=Carman, address=834 Binoc Ave, city=Culver, zip=97451, phone=841-874-6512, email=tenz@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tony, lastName=Cooper, address=112 Steppes Pl, city=Culver, zip=97451, phone=841-874-6874, email=tcoop@ymail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jamie, lastName=Peters, address=908 73rd St, city=Culver, zip=97451, phone=841-874-7462, email=jpeter@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tenley, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=tenz@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Peter, lastName=Duncan, address=644 Gershwin Cir, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Felicia, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6544, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Eric, lastName=Cadigan, address=951 LoneTree Rd, city=Culver, zip=97451, phone=841-874-7458, email=gramps@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jacob, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6513, email=drk@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Foster, lastName=Shepard, address=748 Townings Dr, city=Culver, zip=97451, phone=841-874-6544, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Lily, lastName=Cooper, address=489 Manchester St, city=Culver, zip=97451, phone=841-874-9845, email=lily@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Roger, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Allison, lastName=Boyd, address=112 Steppes Pl, city=Culver, zip=97451, phone=841-874-9888, email=aly@imail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Reginold, lastName=Walker, address=908 73rd St, city=Culver, zip=97451, phone=841-874-8547, email=reg@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Sophia, lastName=Zemicks, address=892 Downing Ct, city=Culver, zip=97451, phone=841-874-7878, email=soph@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jonanathan, lastName=Marrack, address=29 15th St, city=Culver, zip=97451, phone=841-874-6513, email=drk@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}]
+
