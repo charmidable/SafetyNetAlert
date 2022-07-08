@@ -5,7 +5,7 @@ import          java.util.List;
 import          java.util.Map;
 import          java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.openclassrooms.safetynet.entity.Medicalrecord;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.repository.PersonRepo;
@@ -20,24 +20,28 @@ public class PersonService
     // =             Attributes             =
     // ======================================
 
-    @Autowired
-    PersonRepo personRepo;
+    private final PersonRepo personRepo;
 
+    // ======================================
+    // =            Constructors            =
+    // ======================================
+
+    public PersonService(PersonRepo personRepo)
+    {
+        this.personRepo = personRepo;
+    }
 
     // ======================================
     // =          Service  Methods          =
     // ======================================
 
-    public List<Person> getPersons()
-    {
-        System.out.println("PersonService.getPersons() CALLED ");
-        return personRepo.getList();
-    }
+    // ==============================================
+    // =   Service Methods for Person Controller    =
+    // ==============================================
 
-
-    public Optional<Person> getPersonById(int key)
+    public void addPerson(Person person)
     {
-        return Optional.ofNullable(personRepo.getMap().get(key));
+        personRepo.getMap().put(person.hashCode(), person);
     }
 
 
@@ -47,9 +51,83 @@ public class PersonService
     }
 
 
-    public void removePerson(Person person)
+    public void removePerson(String firstName, String lastName)
     {
-        personRepo.getMap().remove(person.hashCode(), person);
+        personRepo.getMap().remove(firstName.hashCode() * 31 + lastName.hashCode());
+    }
+
+
+    public void updatePerson(Person newPerson)
+    {
+        Person oldPerson = personRepo.getMap().get(newPerson.hashCode());
+
+        if(oldPerson != null)
+        {
+            if (newPerson.getCity()    != null) oldPerson.setCity    (newPerson.getCity());
+            if (newPerson.getZip()     != null) oldPerson.setZip     (newPerson.getZip());
+            if (newPerson.getAddress() != null) oldPerson.setAddress (newPerson.getAddress());
+            if (newPerson.getEmail()   != null) oldPerson.setEmail   (newPerson.getEmail());
+            if (newPerson.getPhone()   != null) oldPerson.setPhone   (newPerson.getPhone());
+        }
+    }
+
+
+    // =================================================================
+    // =     Service Methods for Medical Record Person Controller      =
+    // =================================================================
+
+    public void addMedicalrecord(Medicalrecord medicalrecord)
+    {
+        Person person = personRepo.getMap().get(medicalrecord.getFirstName().hashCode() * 31 + medicalrecord.getLastName().hashCode());
+
+        if(person != null)
+        {
+            person.setMedicalrecord(medicalrecord);
+        }
+        else
+        {
+            person = new Person(medicalrecord.getFirstName(), medicalrecord.getLastName());
+            person.setMedicalrecord(medicalrecord);
+            personRepo.getMap().put(person.hashCode(), person);
+        }
+    }
+
+
+    public Medicalrecord getMedicalrecordByName(String firstName, String lastName)
+    {
+        Optional<Person> person = Optional.ofNullable(personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode()));
+
+        if(person.isPresent()) return person.get().getMedicalrecord();
+
+        return null;
+    }
+
+
+    public void removeMedicalrecordByName(String firstName, String lastName)
+    {
+        Person person = personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode());
+        person.clearAllAllergiesAndMedications();
+        person.setBirthdate(null);
+    }
+
+
+    public void updateMedicalrecord(Medicalrecord newMedicalrecord)
+    {
+        Person person = personRepo.getMap().get(newMedicalrecord.getFirstName().hashCode() * 31 + newMedicalrecord.getLastName().hashCode());
+
+        if(newMedicalrecord.getBirthdate()   != null) person.setBirthdate   (newMedicalrecord.getBirthdate());
+        if(newMedicalrecord.getMedications() != null) person.setMedications (newMedicalrecord.getMedications());
+        if(newMedicalrecord.getAllergies()   != null) person.setAllergies   (newMedicalrecord.getAllergies());
+    }
+
+
+    // ======================================
+    // =      Methods for URL Service       =
+    // ======================================
+
+    public List<Person> getPersons()
+    {
+        return personRepo.getList();
     }
 
 
@@ -87,81 +165,3 @@ public class PersonService
                          .toList();
     }
 }
-
-
-
-
-
-/*
-    public List<Person> getList()
-    {
-        return personRepo.getList();
-    }
-    public Map<String, List<Person>> getAllPeopleGroupingByAddress()
-    {
-        Map<String, List<Person>> result = new HashMap<>();
-
-        personRepo.getList()
-                  .stream()
-                  .map(Person::getAddress)
-                  .forEach(adress -> result.put(adress, getPersonsByAdress(adress)));
-
-        return result;
-    }
-
-    public boolean addPerson(Person person)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean editPerson(Person person)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean setBirthday(Person person, LocalDate localDate)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean setAddress(String newAddress)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean addMedication(Person person, String medicationToAdd)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean removeMedication(Person person, String medicationToRemove)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean addAllergie(Person person, String allergieToAdd)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean removeAllergie(Person person, String allergieToRemove)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean removeAllAllergies(Person person)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean removeAllMedications(Person person)
-    {
-        throw new IllegalStateException();
-    }
-
-    public boolean removeAllMedicationsAndAllergies(Person person)
-    {
-        throw new IllegalStateException();
-    }
-
- */

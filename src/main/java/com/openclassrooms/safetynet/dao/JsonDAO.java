@@ -2,6 +2,9 @@ package com.openclassrooms.safetynet.dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -23,6 +26,10 @@ public class JsonDAO
 
     @Value("#{'${jsonpath}'}")
     private File file;
+
+    @Value("#{${loadAndSave}}")
+    public List<String> loadAndSave;
+
 
     private ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
                                                     .enable(SerializationFeature.INDENT_OUTPUT)

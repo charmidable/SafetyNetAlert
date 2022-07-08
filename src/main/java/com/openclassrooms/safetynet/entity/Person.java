@@ -26,7 +26,7 @@ public class Person
     private         String          city;
     private         String          phone;
     private         String          email;
-    private         int             zip;
+    private         Integer         zip;
     private         Medicalrecord   medicalrecord;
 
 
@@ -50,7 +50,7 @@ public class Person
 
 
     // ======================================
-    // =   Delegate Medicalrecord Methods   =
+    // =  Medicalrecord Delegate  Methods   =
     // ======================================
 
     public List<String> getAllergies()
@@ -58,9 +58,24 @@ public class Person
         return medicalrecord.getAllergies();
     }
 
+    public void setAllergies(List<String> allergies)
+    {
+        medicalrecord.setAllergies(allergies);
+    }
+
     public List<String> getMedications()
     {
         return medicalrecord.getMedications();
+    }
+
+    public void setMedications(List<String> medications)
+{
+    medicalrecord.setMedications(medications);
+}
+
+    public LocalDate    getBirthdate()
+    {
+        return medicalrecord.getBirthdate();
     }
 
     @JsonFormat(pattern = "MM/dd/yyyy")
@@ -69,64 +84,19 @@ public class Person
         medicalrecord.setBirthdate(birthdate);
     }
 
-    public void setAllergies(List<String> allergies)
+    public Integer getAge()
     {
-        medicalrecord.setAllergies(allergies);
+        return medicalrecord.getAge();
     }
 
-    public void setMedications(List<String> medications)
+    public boolean isChild()
     {
-        medicalrecord.setMedications(medications);
-    }
-
-    public boolean addMedication(String medication)
-    {
-        return medicalrecord.addMedication(medication);
-    }
-
-    public boolean removeMedication(String medication)
-    {
-        return medicalrecord.removeMedication(medication);
-    }
-
-    public boolean addAllergie(String allergie)
-    {
-        return medicalrecord.addAllergie(allergie);
-    }
-
-    public boolean removeAllergie(String allergie)
-    {
-        return medicalrecord.removeAllergie(allergie);
-    }
-
-    public void removeAllMedications()
-    {
-        medicalrecord.removeAllMedications();
-    }
-
-    public void removeAllAllergies()
-    {
-        medicalrecord.removeAllAllergies();
+        return medicalrecord.isChild();
     }
 
     public void clearAllAllergiesAndMedications()
     {
         medicalrecord.clearAllAllergiesAndAllMedications();
-    }
-
-    public LocalDate getBirthdate()
-    {
-        return medicalrecord.getBirthdate();
-    }
-
-    public Integer getAge()
-    {
-        return LocalDate.now().getYear() - getBirthdate().getYear();
-    }
-
-    public boolean isChild()
-    {
-        return getAge() < 19;
     }
 
 

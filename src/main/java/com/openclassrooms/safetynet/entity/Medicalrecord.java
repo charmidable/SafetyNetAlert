@@ -25,6 +25,7 @@ public class Medicalrecord
     @JsonFormat(pattern = "MM/dd/yyyy")
     private         LocalDate    birthdate;
 
+
     // ======================================
     // =            Constructors            =
     // ======================================
@@ -42,44 +43,27 @@ public class Medicalrecord
         this.lastName = lastName;
     }
 
+
     // ======================================
-    // =         Medical Methods            =
+    // =          Business Methods          =
     // ======================================
 
-    public boolean  addAllergie(String allergie)
+    public Integer getAge()
     {
-        return allergies.add(allergie);
+        if(birthdate == null ) return null;
+        return LocalDate.now().getYear() - getBirthdate().getYear();
     }
 
-    public boolean  addMedication(String medication)
+    public Boolean isChild()
     {
-        return medications.add(medication);
+        if(getAge() == null) return null;
+        return getAge() < 19;
     }
 
-    public boolean  removeAllergie(String allergie)
-    {
-        return allergies.remove(allergie);
-    }
-
-    public boolean  removeMedication(String medication)
-    {
-        return medications.remove(medication);
-    }
-
-    public void     removeAllAllergies()
-    {
-        allergies.clear();
-    }
-
-    public void     removeAllMedications()
+    public void clearAllAllergiesAndAllMedications()
     {
         medications.clear();
-    }
-
-    public void     clearAllAllergiesAndAllMedications()
-    {
-        removeAllMedications();
-        removeAllAllergies();
+        allergies.clear();
     }
 
 

@@ -17,9 +17,16 @@ public class URLController
     // =            Attributes              =
     // ======================================
 
-    @Autowired
-    private URLService service;
+    private final URLService service;
 
+    // ======================================
+    // =           Constructors             =
+    // ======================================
+
+    public URLController(URLService service)
+    {
+        this.service = service;
+    }
 
     // ======================================
     // =        Controller Methods          =

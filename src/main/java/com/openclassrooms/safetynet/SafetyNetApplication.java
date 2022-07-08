@@ -12,6 +12,7 @@ import com.openclassrooms.safetynet.dao.JsonDAO;
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
 import com.openclassrooms.safetynet.repository.PersonRepo;
 import com.openclassrooms.safetynet.repository.FirestationRepo;
+import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
@@ -21,10 +22,10 @@ public class SafetyNetApplication implements CommandLineRunner
     // =             Attributes             =
     // ======================================
 
-    @Autowired private JsonDAO dao;
-    @Autowired private PersonRepo personRepo;
-    @Autowired private FirestationRepo firestationRepo;
-               private EntitiesCollections collections;
+    @Autowired private JsonDAO              dao;
+    @Autowired private PersonRepo           personRepo;
+    @Autowired private FirestationRepo      firestationRepo;
+               private EntitiesCollections  collections;
 
     // ======================================
     // =          Spring Methods            =
@@ -39,6 +40,8 @@ public class SafetyNetApplication implements CommandLineRunner
     public void run(String... args) throws Exception
     {
         init();
+//        System.out.println(dao.filter);
+//        System.out.println("loadAndSave : " + dao.loadAndSave);
     }
 
 

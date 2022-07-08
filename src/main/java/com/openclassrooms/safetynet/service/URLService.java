@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openclassrooms.safetynet.entity.Person;
 
@@ -18,11 +17,15 @@ public class URLService
     // =             Attributes             =
     // ======================================
 
-    @Autowired
-    PersonService personService;
+    private final PersonService personService;
+    private final FirestationService firestationService;
 
-    @Autowired
-    FirestationService firestationService;
+    public URLService(PersonService personService, FirestationService firestationService)
+    {
+        this.personService = personService;
+        this.firestationService = firestationService;
+    }
+
 
 
     // ======================================
