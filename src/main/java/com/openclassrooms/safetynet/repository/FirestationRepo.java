@@ -28,7 +28,7 @@ public class FirestationRepo
     // =  Getters for the different collections  =
     // ===========================================
 
-    public Map<Integer, List<String>> getMap()
+    public Map<Integer, List<Firestation>> getMap()
     {
         return collections.getFirestationsMap();
     }

@@ -1,12 +1,7 @@
 package com.openclassrooms.safetynet.entity;
 
-import          java.util.List;
-import          java.time.LocalDate;
-import static   java.util.stream.Collectors.joining;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -45,58 +40,6 @@ public class Person
     {
         firstName       = _firstName;
         lastName        = _lastName;
-        medicalrecord   = new Medicalrecord(firstName, lastName);
-    }
-
-
-    // ======================================
-    // =  Medicalrecord Delegate  Methods   =
-    // ======================================
-
-    public List<String> getAllergies()
-    {
-        return medicalrecord.getAllergies();
-    }
-
-    public void setAllergies(List<String> allergies)
-    {
-        medicalrecord.setAllergies(allergies);
-    }
-
-    public List<String> getMedications()
-    {
-        return medicalrecord.getMedications();
-    }
-
-    public void setMedications(List<String> medications)
-{
-    medicalrecord.setMedications(medications);
-}
-
-    public LocalDate    getBirthdate()
-    {
-        return medicalrecord.getBirthdate();
-    }
-
-    @JsonFormat(pattern = "MM/dd/yyyy")
-    public void setBirthdate(LocalDate birthdate)
-    {
-        medicalrecord.setBirthdate(birthdate);
-    }
-
-    public Integer getAge()
-    {
-        return medicalrecord.getAge();
-    }
-
-    public boolean isChild()
-    {
-        return medicalrecord.isChild();
-    }
-
-    public void clearAllAllergiesAndMedications()
-    {
-        medicalrecord.clearAllAllergiesAndAllMedications();
     }
 
 
@@ -115,9 +58,6 @@ public class Person
                 ", zip="        + zip       +
                 ", phone="      + phone     +
                 ", email="      + email     +
-                ", birthdate="  + getBirthdate() +
-                ", allergies="  + getAllergies().stream().collect(joining(", ", "{", "}"))  +
-                ", medications="+ getMedications().stream().collect(joining(", ", "{", "}"))+
                 '}';
     }
 
@@ -139,5 +79,10 @@ public class Person
         int result = firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         return result;
+    }
+
+    public boolean isChild()
+    {
+       return medicalrecord.isChild();
     }
 }

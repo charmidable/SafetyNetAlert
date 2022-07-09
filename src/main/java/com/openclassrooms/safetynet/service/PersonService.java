@@ -3,7 +3,6 @@ package com.openclassrooms.safetynet.service;
 import static   java.util.stream.Collectors.*;
 import          java.util.List;
 import          java.util.Map;
-import          java.util.Optional;
 
 import com.openclassrooms.safetynet.entity.Medicalrecord;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ public class PersonService
 
     private final PersonRepo personRepo;
 
+
     // ======================================
     // =            Constructors            =
     // ======================================
@@ -31,13 +31,55 @@ public class PersonService
         this.personRepo = personRepo;
     }
 
+
     // ======================================
-    // =          Service  Methods          =
+    // =      Methods for URL Service       =
     // ======================================
 
-    // ==============================================
-    // =   Service Methods for Person Controller    =
-    // ==============================================
+    public List<Person> getPersons()
+    {
+        return personRepo.getList();
+    }
+
+
+    public Map<Boolean, List<Person>> getFamilyHouseWithChildByAdress(String address)
+    {
+        return personRepo.getList()
+                .stream()
+                .filter(person -> person.getAddress().equalsIgnoreCase(address))
+                .collect(
+                        partitioningBy(
+                                Person::isChild,
+                                toList()
+                        )
+                );
+    }
+
+
+    public List<Person> getPersonsByAdress(String adress)
+    {
+        return personRepo.getList()
+                .stream()
+                .filter(person -> person.getAddress().equalsIgnoreCase(adress))
+                .distinct()
+                .toList();
+    }
+
+
+    public List<String> getEmailsOfAllTheCity(String city)
+    {
+        return personRepo.getList()
+                .stream()
+                .filter(person -> person.getCity().equalsIgnoreCase(city))
+                .map(Person::getEmail)
+                .distinct()
+                .toList();
+    }
+
+
+    // ======================================
+    // =   Methods for Person Controller    =
+    // ======================================
 
     public void addPerson(Person person)
     {
@@ -45,9 +87,9 @@ public class PersonService
     }
 
 
-    public Optional<Person> getPersonByName(String firstName, String lastName)
+    public Person getPersonByName(String firstName, String lastName)
     {
-        return Optional.ofNullable(personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode()));
+        return personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode());
     }
 
 
@@ -72,9 +114,9 @@ public class PersonService
     }
 
 
-    // =================================================================
-    // =     Service Methods for Medical Record Person Controller      =
-    // =================================================================
+    // =========================================
+    // = Methods for Medical Record Controller =
+    // =========================================
 
     public void addMedicalrecord(Medicalrecord medicalrecord)
     {
@@ -93,21 +135,10 @@ public class PersonService
     }
 
 
-    public Medicalrecord getMedicalrecordByName(String firstName, String lastName)
-    {
-        Optional<Person> person = Optional.ofNullable(personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode()));
-
-        if(person.isPresent()) return person.get().getMedicalrecord();
-
-        return null;
-    }
-
-
     public void removeMedicalrecordByName(String firstName, String lastName)
     {
         Person person = personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode());
-        person.clearAllAllergiesAndMedications();
-        person.setBirthdate(null);
+        person.getMedicalrecord().clearMedicalrecord();
     }
 
 
@@ -115,53 +146,8 @@ public class PersonService
     {
         Person person = personRepo.getMap().get(newMedicalrecord.getFirstName().hashCode() * 31 + newMedicalrecord.getLastName().hashCode());
 
-        if(newMedicalrecord.getBirthdate()   != null) person.setBirthdate   (newMedicalrecord.getBirthdate());
-        if(newMedicalrecord.getMedications() != null) person.setMedications (newMedicalrecord.getMedications());
-        if(newMedicalrecord.getAllergies()   != null) person.setAllergies   (newMedicalrecord.getAllergies());
-    }
-
-
-    // ======================================
-    // =      Methods for URL Service       =
-    // ======================================
-
-    public List<Person> getPersons()
-    {
-        return personRepo.getList();
-    }
-
-
-    public Map<Boolean, List<Person>> getFamilyHouseWithChildByAdress(String address)
-    {
-        return personRepo.getList()
-                         .stream()
-                         .filter(person -> person.getAddress().equalsIgnoreCase(address))
-                         .collect(
-                                    partitioningBy(
-                                                    Person::isChild,
-                                                    toList()
-                                                  )
-                                 );
-    }
-
-
-    public List<Person> getPersonsByAdress(String adress)
-    {
-        return personRepo.getList()
-                         .stream()
-                         .filter(person -> person.getAddress().equalsIgnoreCase(adress))
-                         .distinct()
-                         .toList();
-    }
-
-
-    public List<String> getEmailsOfAllTheCity(String city)
-    {
-        return personRepo.getList()
-                         .stream()
-                         .filter(person -> person.getCity().equalsIgnoreCase(city))
-                         .map(Person::getEmail)
-                         .distinct()
-                         .toList();
+        if(newMedicalrecord.getBirthdate()   != null) person.getMedicalrecord().setBirthdate   (newMedicalrecord.getBirthdate());
+        if(newMedicalrecord.getMedications() != null) person.getMedicalrecord().setMedications (newMedicalrecord.getMedications());
+        if(newMedicalrecord.getAllergies()   != null) person.getMedicalrecord().setAllergies   (newMedicalrecord.getAllergies());
     }
 }

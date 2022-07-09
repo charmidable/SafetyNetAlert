@@ -19,8 +19,8 @@ public class EntitiesCollections
     // =======================================
 
     private   Map<Integer, Medicalrecord> medicalrecords;
-    private   Map<Integer, List<String>>  firestations;
     private   Map<Integer, Person>        persons;
+    private   List<Firestation>           firestations;
 
 
     // =======================================
@@ -53,34 +53,27 @@ public class EntitiesCollections
     }
 
 
-    public void setFirestations(List<Firestation> stations)
+    public List<Firestation> getFirestations()
     {
-        firestations =  stations.stream().collect(
-                                                    groupingBy(
-                                                                Firestation::station,
-                                                                mapping(
-                                                                         Firestation::address,
-                                                                         toList()
-                                                                       )
-                                                              )
-                                                 );
+        return firestations;
     }
 
 
-    public List<Firestation> getFirestations()
+    public void setFirestations(List<Firestation> firestations)
     {
-        return firestations .entrySet()
-                            .stream()
-                            .flatMap(
-                                      stationNumber -> stationNumber.getValue()
-                                                                    .stream()
-                                                                    .map(value -> new Firestation(
-                                                                                                    value,
-                                                                                                    stationNumber.getKey()
-                                                                                                 )
-                                                                        )
-                                    )
-                            .collect(toList());
+        this.firestations = firestations;
+    }
+
+
+    // =======================================
+    // =      Getters for Repositories       =
+    // =======================================
+
+
+    @JsonIgnore
+    public Map<Integer, Person> getPersonsMap()
+    {
+        return persons;
     }
 
 
@@ -91,20 +84,17 @@ public class EntitiesCollections
     }
 
 
-    // =======================================
-    // =      Getters for Repositories       =
-    // =======================================
-
     @JsonIgnore
-    public Map<Integer, List<String>> getFirestationsMap()
+    public Map<Integer, List<Firestation>> getFirestationsMap()
     {
-        return firestations;
-    }
-
-
-    @JsonIgnore
-    public Map<Integer, Person> getPersonsMap()
-    {
-        return persons;
+        return firestations.stream().collect(
+                                                groupingBy(
+                                                             Firestation::station,
+                                                             mapping(
+                                                                      identity(),
+                                                                      toList()
+                                                                    )
+                                                          )
+                                            );
     }
 }

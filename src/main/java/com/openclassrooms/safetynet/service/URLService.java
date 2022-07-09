@@ -1,10 +1,8 @@
 package com.openclassrooms.safetynet.service;
 
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
+import com.openclassrooms.safetynet.entity.Firestation;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.entity.Person;
@@ -20,12 +18,16 @@ public class URLService
     private final PersonService personService;
     private final FirestationService firestationService;
 
+
+    // ======================================
+    // =            Constructors            =
+    // ======================================
+
     public URLService(PersonService personService, FirestationService firestationService)
     {
         this.personService = personService;
         this.firestationService = firestationService;
     }
-
 
 
     // ======================================
@@ -40,9 +42,9 @@ public class URLService
 
         long numberOfAdult = personList.size() - numberOfChild;
 
-        record Result(int stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people){}
+        record DTO(int stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people){}
 
-        return new Result(stationNumber, numberOfChild, numberOfAdult, personList);
+        return new DTO(stationNumber, numberOfChild, numberOfAdult, personList);
     }
 
 
@@ -52,45 +54,42 @@ public class URLService
 
         if(map.get(true).size() == 0) return "";
 
-        record Result(String adress, List<Person> childs, List<Person> adults){}
+        record DTO(String adress, List<Person> childs, List<Person> adults){}
 
-        return new Result(address, map.get(true), map.get(false));
+        return new DTO(address, map.get(true), map.get(false));
     }
 
 
     public Object phoneAlert(int firestationNumber)
     {
-        record Result(int stationNumber, List<String> people){}
+        record DTO(int stationNumber, List<String> people){}
 
-        return new Result(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
+        return new DTO(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
     }
 
 
     public Object fire(String address)
     {
-        record Result(int stationNumber, String address, List<Person> people){}
+        record DTO(int stationNumber, String address, List<Person> people){}
 
-        return new Result(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAdress(address));
+        return new DTO(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAdress(address));
     }
 
 
-    public Map<Integer, Map<String, List<Person>>> flood(Integer... fireStationNumber)
+    public Map<Firestation, List<Person>> flood(Integer... fireStationNumbers)
     {
-        List<Integer> numeros = List.of(fireStationNumber);
+        Map<Firestation, List<Person>> DTO = new HashMap<>();
 
-        Map<Integer, Map<String, List<Person>>> floodResult = new HashMap<>();
-
-        numeros.stream().forEach(i -> floodResult.put(  i, new HashMap<String, List<Person>>()));
-
-        numeros.stream().forEach(i -> firestationService.getMap()
-               .get(i)
-               .forEach((String address) -> floodResult.get( i).put(address, personService.getPersonsByAdress(address))));
-
-        return floodResult;
+        Arrays.stream(fireStationNumbers).map(i -> firestationService.getMap().get(i))
+                                         .flatMap(List::stream)
+                                         .sorted()
+                                         .distinct()
+                                         .forEach(f -> DTO.put(f,  personService.getPersonsByAdress(f.address())));
+        return DTO;
     }
 
 
-    public Optional<Person> personInfo(String firstName, String lastName)
+    public Person personInfo(String firstName, String lastName)
     {
         return personService.getPersonByName(firstName, lastName);
     }
@@ -98,9 +97,9 @@ public class URLService
 
     public Object communityEmail(String city)
     {
-        record Result(String city, List<String> email){}
+        record DTO(String city, List<String> email){}
 
-        return new Result(city, personService.getEmailsOfAllTheCity(city));
+        return new DTO(city, personService.getEmailsOfAllTheCity(city));
     }
 
 

@@ -60,10 +60,11 @@ public class Medicalrecord
         return getAge() < 19;
     }
 
-    public void clearAllAllergiesAndAllMedications()
+    public void clearMedicalrecord()
     {
         medications.clear();
         allergies.clear();
+        birthdate = null;
     }
 
 
