@@ -2,8 +2,6 @@ package com.openclassrooms.safetynet.dao;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -31,20 +30,41 @@ public class JsonDAO
     public List<String> loadAndSave;
 
 
-    private ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+//    private EntitiesCollections collections;
+
+
+    private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
                                                     .enable(SerializationFeature.INDENT_OUTPUT)
                                                     .setFilterProvider(getPersonFilter());
+
+//    public JsonDAO(EntitiesCollections entitiesCollections)
+//    {
+//        try
+//        {
+//            collections = mapper.readValue(file, EntitiesCollections.class);
+//        } catch (IOException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+//
+//        collections .getPersons()
+//                    .stream()
+//                    .forEach(person -> person.setMedicalrecord(collections.getMedicalrecordsMap()
+//                                                                          .get(person.hashCode())
+//                                                              )
+//                            );
+//    }
 
 
     // ======================================
     // =            DAO Methods             =
     // ======================================
 
+    @Autowired
     public EntitiesCollections loadFromJson() throws IOException
     {
         EntitiesCollections collections = mapper.readValue(file, EntitiesCollections.class);
         collections .getPersons()
-                    .stream()
                     .forEach(person -> person.setMedicalrecord(collections.getMedicalrecordsMap()
                                                                           .get(person.hashCode())
                                                               )

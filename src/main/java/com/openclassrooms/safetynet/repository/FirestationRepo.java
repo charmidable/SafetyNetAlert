@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
 import com.openclassrooms.safetynet.entity.Firestation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 

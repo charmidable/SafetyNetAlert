@@ -82,8 +82,8 @@ public class URLService
 
         Arrays.stream(fireStationNumbers).map(i -> firestationService.getMap().get(i))
                                          .flatMap(List::stream)
-                                         .sorted()
                                          .distinct()
+                                         .sorted()
                                          .forEach(f -> DTO.put(f,  personService.getPersonsByAdress(f.address())));
         return DTO;
     }

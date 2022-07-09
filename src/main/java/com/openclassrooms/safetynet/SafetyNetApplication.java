@@ -14,7 +14,6 @@ import com.openclassrooms.safetynet.dao.JsonDAO;
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
 import com.openclassrooms.safetynet.repository.PersonRepo;
 import com.openclassrooms.safetynet.repository.FirestationRepo;
-import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
@@ -24,12 +23,19 @@ public class SafetyNetApplication implements CommandLineRunner
     // =             Attributes             =
     // ======================================
 
-    @Autowired private JsonDAO              dao;
-    @Autowired private PersonRepo           personRepo;
-    @Autowired private FirestationRepo      firestationRepo;
-    @Autowired private URLService           urlService;
-    @Autowired private PersonService        personService;
-               private EntitiesCollections  collections;
+    @Autowired
+    private JsonDAO dao;
+    @Autowired
+    private PersonRepo personRepo;
+    @Autowired
+    private FirestationRepo firestationRepo;
+    @Autowired
+    private URLService urlService;
+    @Autowired
+    private PersonService personService;
+
+    private EntitiesCollections collections;
+
 
     // ======================================
     // =          Spring Methods            =
@@ -44,7 +50,7 @@ public class SafetyNetApplication implements CommandLineRunner
     public void run(String... args) throws Exception
     {
         init();
-        System.out.println(urlService.flood(1,4));
+//        System.out.println(urlService.flood(1,4));
 //        urlService.flood(1,4);
 //        System.out.println(personService.getHashMapPersonsByAdress("947 E. Rose Dr"));
 
@@ -66,8 +72,8 @@ public class SafetyNetApplication implements CommandLineRunner
 
     private void initRepo()
     {
-        firestationRepo .setCollections(collections);
-        personRepo      .setCollections(collections);
+        firestationRepo.setCollections(collections);
+        personRepo.setCollections(collections);
     }
 
     private void shutDown() throws Exception
