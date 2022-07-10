@@ -18,12 +18,17 @@ public class PersonRepo
     // =  Initialisation Attribute & Methods   =
     // =========================================
 
-    private EntitiesCollections collections;
+    private final  EntitiesCollections collections;
 
-    public void setCollections(EntitiesCollections ec)
+    public PersonRepo(EntitiesCollections collections)
     {
-        collections = ec;
+        this.collections = collections;
     }
+
+//    public void setCollections(EntitiesCollections ec)
+//    {
+//        collections = ec;
+//    }
 
 
 

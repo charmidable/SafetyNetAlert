@@ -2,7 +2,7 @@ package com.openclassrooms.safetynet.dao;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashSet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -11,11 +11,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class JsonDAO
 {
@@ -26,48 +28,32 @@ public class JsonDAO
     @Value("#{'${jsonpath}'}")
     private File file;
 
-    @Value("#{${loadAndSave}}")
-    public List<String> loadAndSave;
+    @Value("#{'${loadAndSave}'.split(';')}")
+    private HashSet<String> personFieldsToKeep;
 
 
-//    private EntitiesCollections collections;
-
-
-    private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+    private ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
                                                     .enable(SerializationFeature.INDENT_OUTPUT)
                                                     .setFilterProvider(getPersonFilter());
-
-//    public JsonDAO(EntitiesCollections entitiesCollections)
-//    {
-//        try
-//        {
-//            collections = mapper.readValue(file, EntitiesCollections.class);
-//        } catch (IOException e)
-//        {
-//            throw new RuntimeException(e);
-//        }
-//
-//        collections .getPersons()
-//                    .stream()
-//                    .forEach(person -> person.setMedicalrecord(collections.getMedicalrecordsMap()
-//                                                                          .get(person.hashCode())
-//                                                              )
-//                            );
-//    }
 
 
     // ======================================
     // =            DAO Methods             =
     // ======================================
 
-    @Autowired
+    @Bean
     public EntitiesCollections loadFromJson() throws IOException
     {
+        log.info("loadFromJson() method called from JsonDAO ");
+
         EntitiesCollections collections = mapper.readValue(file, EntitiesCollections.class);
+
         collections .getPersons()
-                    .forEach(person -> person.setMedicalrecord(collections.getMedicalrecordsMap()
-                                                                          .get(person.hashCode())
-                                                              )
+                    .forEach(
+                                person -> person.setMedicalrecord(
+                                                                    collections.getMedicalrecordsMap()
+                                                                               .get(person.hashCode())
+                                                                 )
                             );
 
         return collections;
@@ -76,6 +62,7 @@ public class JsonDAO
 
     public void saveToJson(EntitiesCollections collections) throws IOException
     {
+        log.info("saveToJson() method called from JsonDAO ");
         mapper.writeValue(file, collections);
     }
 
@@ -86,6 +73,7 @@ public class JsonDAO
 
     private FilterProvider getPersonFilter()
     {
-        return new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept("firstName;lastName;address;city;phone;email;zip".split(";")));
+        log.info("getPersonFilter() method called from JsonDAO ");
+        return new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep));
     }
 }

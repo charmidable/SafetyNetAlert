@@ -22,18 +22,5 @@ class PersonControllerTest
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void TestGetPersons() throws Exception
-    {
-        mockMvc .perform(get("/persons"))
-//                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].firstName", is("Shawna")));
-    }
 
-    @Test
-    public void TestGetPerson()
-    {
-
-    }
 }

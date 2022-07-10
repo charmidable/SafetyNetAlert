@@ -17,12 +17,17 @@ public class FirestationRepo
     // =  Initialisation Attribute & Methods   =
     // =========================================
 
-    private EntitiesCollections collections;
+    private final EntitiesCollections collections;
 
-    public void setCollections(EntitiesCollections ec)
+    public FirestationRepo(EntitiesCollections collections)
     {
-        collections = ec;
+        this.collections = collections;
     }
+
+//    public void setCollections(EntitiesCollections ec)
+//    {
+//        collections = ec;
+//    }
 
 
     // ===========================================
