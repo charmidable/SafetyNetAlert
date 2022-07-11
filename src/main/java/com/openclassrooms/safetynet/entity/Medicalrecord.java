@@ -3,6 +3,7 @@ package com.openclassrooms.safetynet.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +32,7 @@ public class Medicalrecord
     // ======================================
 
     @JsonCreator
-    public Medicalrecord(
+    private Medicalrecord(
                             @JsonProperty("firstName")
                             final String firstName,
 
@@ -48,12 +49,14 @@ public class Medicalrecord
     // =          Business Methods          =
     // ======================================
 
+    @JsonIgnore
     public Integer getAge()
     {
         if(birthdate == null ) return null;
         return LocalDate.now().getYear() - getBirthdate().getYear();
     }
 
+    @JsonIgnore
     public Boolean isChild()
     {
         if(getAge() == null) return null;

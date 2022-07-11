@@ -45,35 +45,35 @@ public class PersonService
     public Map<Boolean, List<Person>> getFamilyHouseWithChildByAdress(String address)
     {
         return personRepo.getList()
-                .stream()
-                .filter(person -> person.getAddress().equalsIgnoreCase(address))
-                .collect(
-                        partitioningBy(
-                                Person::isChild,
-                                toList()
-                        )
-                );
+                         .stream()
+                         .filter(person -> person.getAddress().equalsIgnoreCase(address))
+                         .collect(
+                                    partitioningBy(
+                                                    Person::isChild,
+                                                    toList()
+                                                  )
+                                 );
     }
 
 
     public List<Person> getPersonsByAdress(String adress)
     {
         return personRepo.getList()
-                .stream()
-                .filter(person -> person.getAddress().equalsIgnoreCase(adress))
-                .distinct()
-                .toList();
+                         .stream()
+                         .filter(person -> person.getAddress().equalsIgnoreCase(adress))
+                         .distinct()
+                         .toList();
     }
 
 
     public List<String> getEmailsOfAllTheCity(String city)
     {
         return personRepo.getList()
-                .stream()
-                .filter(person -> person.getCity().equalsIgnoreCase(city))
-                .map(Person::getEmail)
-                .distinct()
-                .toList();
+                         .stream()
+                         .filter(person -> person.getCity().equalsIgnoreCase(city))
+                         .map(Person::getEmail)
+                         .distinct()
+                         .toList();
     }
 
 
@@ -93,9 +93,9 @@ public class PersonService
     }
 
 
-    public void removePerson(String firstName, String lastName)
+    public void removePerson(Person person)
     {
-        personRepo.getMap().remove(firstName.hashCode() * 31 + lastName.hashCode());
+        personRepo.getMap().remove(person.hashCode());
     }
 
 
@@ -111,43 +111,5 @@ public class PersonService
             if (newPerson.getEmail()   != null) oldPerson.setEmail   (newPerson.getEmail());
             if (newPerson.getPhone()   != null) oldPerson.setPhone   (newPerson.getPhone());
         }
-    }
-
-
-    // =========================================
-    // = Methods for Medical Record Controller =
-    // =========================================
-
-    public void addMedicalrecord(Medicalrecord medicalrecord)
-    {
-        Person person = personRepo.getMap().get(medicalrecord.getFirstName().hashCode() * 31 + medicalrecord.getLastName().hashCode());
-
-        if(person != null)
-        {
-            person.setMedicalrecord(medicalrecord);
-        }
-        else
-        {
-            person = new Person(medicalrecord.getFirstName(), medicalrecord.getLastName());
-            person.setMedicalrecord(medicalrecord);
-            personRepo.getMap().put(person.hashCode(), person);
-        }
-    }
-
-
-    public void removeMedicalrecordByName(String firstName, String lastName)
-    {
-        Person person = personRepo.getMap().get(firstName.hashCode() * 31 + lastName.hashCode());
-        person.getMedicalrecord().clearMedicalrecord();
-    }
-
-
-    public void updateMedicalrecord(Medicalrecord newMedicalrecord)
-    {
-        Person person = personRepo.getMap().get(newMedicalrecord.getFirstName().hashCode() * 31 + newMedicalrecord.getLastName().hashCode());
-
-        if(newMedicalrecord.getBirthdate()   != null) person.getMedicalrecord().setBirthdate   (newMedicalrecord.getBirthdate());
-        if(newMedicalrecord.getMedications() != null) person.getMedicalrecord().setMedications (newMedicalrecord.getMedications());
-        if(newMedicalrecord.getAllergies()   != null) person.getMedicalrecord().setAllergies   (newMedicalrecord.getAllergies());
     }
 }

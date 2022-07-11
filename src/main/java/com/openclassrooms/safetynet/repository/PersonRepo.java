@@ -3,7 +3,6 @@ package com.openclassrooms.safetynet.repository;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
@@ -13,23 +12,21 @@ import com.openclassrooms.safetynet.entity.Person;
 @Component
 public class PersonRepo
 {
-
     // =========================================
-    // =  Initialisation Attribute & Methods   =
+    // =              Attribute                =
     // =========================================
 
-    private final  EntitiesCollections collections;
+    private final EntitiesCollections collections;
 
-    public PersonRepo(EntitiesCollections collections)
+
+    // ======================================
+    // =            Constructors            =
+    // ======================================
+
+    private PersonRepo(EntitiesCollections collections)
     {
         this.collections = collections;
     }
-
-//    public void setCollections(EntitiesCollections ec)
-//    {
-//        collections = ec;
-//    }
-
 
 
     // ===========================================
@@ -45,5 +42,4 @@ public class PersonRepo
     {
         return collections.getPersons();
     }
-
 }

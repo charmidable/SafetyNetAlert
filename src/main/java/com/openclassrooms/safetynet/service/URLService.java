@@ -2,10 +2,10 @@ package com.openclassrooms.safetynet.service;
 
 import java.util.*;
 
-import com.openclassrooms.safetynet.entity.Firestation;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.entity.Person;
+import com.openclassrooms.safetynet.entity.Firestation;
 
 
 @Service
@@ -110,8 +110,8 @@ public class URLService
     private List<Person> getPeopleByStationNumber(int stationNumber)
     {
         return  personService.getPersons()
-                .stream()
-                .filter (person -> firestationService.getAdressesCoveredByTheFireStation(stationNumber).contains(person.getAddress()))
-                .toList();
+                             .stream()
+                             .filter (person -> firestationService.getAdressesCoveredByTheFireStation(stationNumber).contains(person.getAddress()))
+                             .toList();
     }
 }

@@ -3,13 +3,12 @@ package com.openclassrooms.safetynet.controller;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
-import          com.openclassrooms.safetynet.service.URLService;
-import static   com.openclassrooms.safetynet.controller.tool.Filter.*;
+import        com.openclassrooms.safetynet.service.URLService;
+import static com.openclassrooms.safetynet.controller.tool.FilterMapping.*;
 
 @RestController
-public class URLController
+class URLController
 {
-
     // ======================================
     // =            Attributes              =
     // ======================================
@@ -21,7 +20,7 @@ public class URLController
     // =           Constructors             =
     // ======================================
 
-    public URLController(URLService service)
+    private URLController(URLService service)
     {
         this.service = service;
     }
@@ -32,55 +31,43 @@ public class URLController
     // ======================================
 
     @GetMapping("/firestation")
-    public MappingJacksonValue firestation(@RequestParam final int stationNumber)
+    private MappingJacksonValue firestation(@RequestParam final int stationNumber)
     {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.firestation(stationNumber));
-        mapping.setFilters(firestationFilterProvider);
-        return mapping;
+        return firestationMapping(service.firestation(stationNumber));
     }
 
     @GetMapping("/childAlert")
-    public MappingJacksonValue childAlert(@RequestParam final String address)
+    private MappingJacksonValue childAlert(@RequestParam final String address)
     {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.childAlert(address));
-        mapping.setFilters(childAlertFilterProvider);
-        return mapping;
-    }
-
-    @GetMapping("/phoneAlert")
-    public MappingJacksonValue phoneAlert(@RequestParam final int stationNumber)
-    {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.phoneAlert(stationNumber));
-        mapping.setFilters(phoneAlertFilterProvider);
-        return mapping;
+        return childAlertMapping(service.childAlert(address));
     }
 
     @GetMapping("/fire")
-    public MappingJacksonValue fire(@RequestParam final String address)
+    private MappingJacksonValue fire(@RequestParam final String address)
     {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.fire(address));
-        mapping.setFilters(fireFilterProvider);
-        return mapping;
+        return fireMapping(service.fire(address));
     }
 
     @GetMapping("/flood")
-    public MappingJacksonValue flood(@RequestParam final Integer... aListOfStationNumber)
+    private MappingJacksonValue flood(@RequestParam final Integer... aListOfStationNumber)
     {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.flood(aListOfStationNumber));
-        mapping.setFilters(floodFilterProvider);
-        return mapping;
+        return floodMapping(service.flood(aListOfStationNumber));
     }
 
     @GetMapping("/personInfo")
-    public MappingJacksonValue personInfo(@RequestParam final String firstName, String lastName)
+    private MappingJacksonValue personInfo(@RequestParam final String firstName, String lastName)
     {
-        MappingJacksonValue mapping  = new MappingJacksonValue(service.personInfo(firstName, lastName));
-        mapping.setFilters(personInfoFilterProvider);
-        return mapping;
+        return personInfoMapping(service.personInfo(firstName, lastName));
+    }
+
+    @GetMapping("/phoneAlert")
+    private Object phoneAlert(@RequestParam final int stationNumber)
+    {
+        return service.phoneAlert(stationNumber);
     }
 
     @GetMapping("/communityEmail")
-    public Object communityEmail(@RequestParam final String city)
+    private Object communityEmail(@RequestParam final String city)
     {
         return service.communityEmail(city);
     }

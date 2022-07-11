@@ -5,29 +5,27 @@ import java.util.Map;
 
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
 import com.openclassrooms.safetynet.entity.Firestation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class FirestationRepo
 {
-
     // =========================================
-    // =  Initialisation Attribute & Methods   =
+    // =              Attribute                =
     // =========================================
 
-    private final EntitiesCollections collections;
+    private final  EntitiesCollections collections;
 
-    public FirestationRepo(EntitiesCollections collections)
+
+    // ======================================
+    // =            Constructors            =
+    // ======================================
+
+    private FirestationRepo(EntitiesCollections collections)
     {
         this.collections = collections;
     }
-
-//    public void setCollections(EntitiesCollections ec)
-//    {
-//        collections = ec;
-//    }
 
 
     // ===========================================

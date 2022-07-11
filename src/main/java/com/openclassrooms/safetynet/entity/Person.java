@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.util.List;
+
 
 @Data
 @JsonFilter("person_filter")
@@ -42,6 +45,34 @@ public class Person
         lastName        = _lastName;
     }
 
+    // ======================================
+    // =   Medicalrecord Delegate Methods   =
+    // ======================================
+
+    public List<String> getAllergies()
+    {
+        return medicalrecord.getAllergies();
+    }
+
+    public List<String> getMedications()
+    {
+        return medicalrecord.getMedications();
+    }
+
+    public LocalDate getBirthdate()
+    {
+        return medicalrecord.getBirthdate();
+    }
+
+    public Integer getAge()
+    {
+        return medicalrecord.getAge();
+    }
+
+    public boolean isChild()
+    {
+        return medicalrecord.isChild();
+    }
 
     // ======================================
     // =           Object Methods           =
@@ -81,8 +112,4 @@ public class Person
         return result;
     }
 
-    public boolean isChild()
-    {
-       return medicalrecord.isChild();
-    }
 }

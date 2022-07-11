@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.controller;
 
+import com.openclassrooms.safetynet.service.MedicalrecordService;
 import org.springframework.web.bind.annotation.*;
 
 import com.openclassrooms.safetynet.service.PersonService;
@@ -14,14 +15,14 @@ public class MedicalrecordController
     // =             Attributes             =
     // ======================================
 
-    private final PersonService service;
+    private final MedicalrecordService service;
 
 
     // ======================================
     // =            Constructors            =
     // ======================================
 
-    public MedicalrecordController(PersonService service)
+    public MedicalrecordController(MedicalrecordService service)
     {
         this.service = service;
     }
@@ -47,12 +48,9 @@ public class MedicalrecordController
 
 
     @DeleteMapping(value = "/medicalrecord")
-    public void deleteMedicalRecordByName(
-            @RequestParam("firstName")  String firstName,
-            @RequestParam("lastName")   String lastName
-    )
+    public void deleteMedicalRecordByName(Medicalrecord medicalRecord)
     {
-        service.removeMedicalrecordByName(firstName, lastName);
+        service.removeMedicalrecord(medicalRecord);
     }
 
 }

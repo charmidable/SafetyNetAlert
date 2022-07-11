@@ -56,10 +56,22 @@ Firestation[station=4, address=489 Manchester St]={489 Manchester St=[
     Person{firstName=Lily, lastName=Cooper, address=489 Manchester St, city=Culver, zip=97451, phone=841-874-9845, email=lily@email.com, birthdate=1994-03-06, allergies={}, medications={}}]}}
 
 
-org.springframework.beans.factory.BeanCreationException:
+org.springframework.beans.factory.UnsatisfiedDependencyException:
 
-Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource
+Error creating bean with name 'URLController' defined in file
 
-[org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]:
+[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\controller\URLController.class]:
 
-Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'personController' method
+Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException:
+
+Error creating bean with name 'filterMapping' defined in file
+
+[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\controller\tool\FilterMapping.class]:
+
+Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException:
+
+Failed to instantiate [com.openclassrooms.safetynet.controller.tool.FilterMapping]:
+
+Constructor threw exception; nested exception is java.lang.NullPointerException:
+
+Cannot invoke "com.openclassrooms.safetynet.controller.tool.HashSetPropertyProvider.getKeepAllFieldsToKeep()" because "this.hashSetPropertyProvider" is null
