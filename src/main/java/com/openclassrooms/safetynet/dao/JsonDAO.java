@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -29,46 +28,30 @@ class JsonDAO
     @Value("#{'${loadAndSave}'.split(';')}")
     private HashSet<String> personFieldsToKeep;
 
+    private EntitiesCollections collections;
+
     private ObjectMapper mapper;
+
 
     // ======================================
     // =            DAO Methods             =
     // ======================================
 
     @Bean
-    private EntitiesCollections loadFromJson() throws IOException
+    public EntitiesCollections loadFromJson() throws IOException
     {
         mapper = new ObjectMapper() .registerModule(new JavaTimeModule())
                                     .enable(SerializationFeature.INDENT_OUTPUT)
-                                    .setFilterProvider(getPersonFilter(personFieldsToKeep));
+                                    .setFilterProvider(new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep)));
 
-        EntitiesCollections collections = mapper.readValue(file, EntitiesCollections.class);
-
-        collections .getPersons()
-                    .forEach(
-                                person -> person.setMedicalrecord(
-                                                                    collections.getMedicalrecordsMap()
-                                                                               .get(person.hashCode())
-                                                                 )
-                            );
+        collections = mapper.readValue(file, EntitiesCollections.class);
 
         return collections;
     }
 
 
-    private void saveToJson(EntitiesCollections collections) throws IOException
+    public void saveToJson() throws IOException
     {
         mapper.writeValue(file, collections);
-    }
-
-
-    // ======================================
-    // =        Private Tool Methods        =
-    // ======================================
-
-
-    private FilterProvider getPersonFilter(HashSet<String> _personFieldsToKeep)
-    {
-        return new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(_personFieldsToKeep));
     }
 }

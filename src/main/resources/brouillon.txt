@@ -1,3 +1,100 @@
+=====================================================
+PERSON
+=====================================================
+
++++++ CREATE +++++
+
+{
+    "firstName": "Phileas",
+    "lastName": "Fogg",
+    "address": "11 Downing Street",
+    "city": "London",
+    "zip": "88888",
+    "phone": "111-222-3333",
+    "email": "p.fogg@gegemail.com"
+}
+
+
++++++ UPDATE +++++
+
+{
+    "firstName": "Phileas",
+    "lastName": "Fogg",
+    "address": "99 Abbey Road",
+    "city": "London",
+    "zip": "88888",
+    "phone": "999-888-7777",
+    "email": "phileas.f@jojomail.com"
+}
+
+
++++++ DELETE +++++
+
+{
+    "firstName": "Phileas",
+    "lastName": "Fogg"
+}
+
+=====================================================
+MEDICALRECORD
+=====================================================
++++++ CREATE +++++
+
+{
+    "firstName":"Phileas",
+    "lastName":"Fogg",
+    "birthdate":"11/11/1811",
+    "medications":["chloroquine:500mg"],
+    "allergies":["arachide"]
+}
+
++++++ UPDATE +++++
+
+{
+    "firstName":"Phileas",
+    "lastName":"Fogg",
+    "birthdate":"12/22/1812",
+    "medications":["azithromycine=350mg"],
+    "allergies":["lactose"]
+}
+
+
++++++ DELETE +++++
+
+{
+    "firstName": "Phileas",
+    "lastName": "Fogg"
+}
+
+
+
+
+{ "address":"888 street", "station":"34" }
+
+
+=====================================================
+MEDICALRECORD
+=====================================================
++++++ CREATE +++++
+
+{
+    "station": 5,
+    "address": "Abbey road"
+}
+
+
+{
+    "station": 6,
+    "address": "Downing Street"
+}
+
++++++ UPDATE +++++
+
+{
+    "station": 5,
+    "address": "Downing Street"
+}
+
 person.hashcode
 
 -804949471
@@ -33,7 +130,6 @@ Person{firstName=Brian, lastName=Stelzer, address=947 E. Rose Dr, city=Culver, z
  Person{firstName=Clive, lastName=Ferguson, address=748 Townings Dr, city=Culver, zip=97451, phone=841-874-6741, email=clivfd@ymail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Kendrik, lastName=Stelzer, address=947 E. Rose Dr, city=Culver, zip=97451, phone=841-874-7784, email=bstel@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Warren, lastName=Zemicks, address=892 Downing Ct, city=Culver, zip=97451, phone=841-874-7512, email=ward@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=John, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tessa, lastName=Carman, address=834 Binoc Ave, city=Culver, zip=97451, phone=841-874-6512, email=tenz@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tony, lastName=Cooper, address=112 Steppes Pl, city=Culver, zip=97451, phone=841-874-6874, email=tcoop@ymail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jamie, lastName=Peters, address=908 73rd St, city=Culver, zip=97451, phone=841-874-7462, email=jpeter@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Tenley, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=tenz@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Peter, lastName=Duncan, address=644 Gershwin Cir, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Felicia, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6544, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Eric, lastName=Cadigan, address=951 LoneTree Rd, city=Culver, zip=97451, phone=841-874-7458, email=gramps@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jacob, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6513, email=drk@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Foster, lastName=Shepard, address=748 Townings Dr, city=Culver, zip=97451, phone=841-874-6544, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Lily, lastName=Cooper, address=489 Manchester St, city=Culver, zip=97451, phone=841-874-9845, email=lily@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Roger, lastName=Boyd, address=1509 Culver St, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Allison, lastName=Boyd, address=112 Steppes Pl, city=Culver, zip=97451, phone=841-874-9888, email=aly@imail.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Reginold, lastName=Walker, address=908 73rd St, city=Culver, zip=97451, phone=841-874-8547, email=reg@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Sophia, lastName=Zemicks, address=892 Downing Ct, city=Culver, zip=97451, phone=841-874-7878, email=soph@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}, Person{firstName=Jonanathan, lastName=Marrack, address=29 15th St, city=Culver, zip=97451, phone=841-874-6513, email=drk@email.com, birthdate=getBirthdate(), allergies=getAllergies().stream().collect, medications=getMedications().stream().collect}]
 
 
-
 {Firestation[station=1, address=644 Gershwin Cir]={644 Gershwin Cir=
     [Person{firstName=Peter, lastName=Duncan, address=644 Gershwin Cir, city=Culver, zip=97451, phone=841-874-6512, email=jaboyd@email.com, birthdate=2000-09-06, allergies={shellfish}, medications={}}]},
 
@@ -56,22 +152,29 @@ Firestation[station=4, address=489 Manchester St]={489 Manchester St=[
     Person{firstName=Lily, lastName=Cooper, address=489 Manchester St, city=Culver, zip=97451, phone=841-874-9845, email=lily@email.com, birthdate=1994-03-06, allergies={}, medications={}}]}}
 
 
+Exception encountered during context initialization - cancelling refresh attempt:
+
 org.springframework.beans.factory.UnsatisfiedDependencyException:
 
-Error creating bean with name 'URLController' defined in file
+Error creating bean with name 'firestationController' defined in file
 
-[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\controller\URLController.class]:
+[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\controller\FirestationController.class]:
 
-Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException:
+Unsatisfied dependency expressed through constructor parameter 0;
 
-Error creating bean with name 'filterMapping' defined in file
+nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException:
 
-[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\controller\tool\FilterMapping.class]:
+Error creating bean with name 'firestationService' defined in file
 
-Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException:
+[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\service\FirestationService.class]:
 
-Failed to instantiate [com.openclassrooms.safetynet.controller.tool.FilterMapping]:
+Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException:
 
-Constructor threw exception; nested exception is java.lang.NullPointerException:
-
-Cannot invoke "com.openclassrooms.safetynet.controller.tool.HashSetPropertyProvider.getKeepAllFieldsToKeep()" because "this.hashSetPropertyProvider" is null
+Error creating bean with name 'firestationRepo' defined in file
+[E:\OpenClassRooms\Projet 5 - 120 heures\Projet\final - 11\SafetyNet\target\classes\com\openclassrooms\safetynet\repository\FirestationRepo.class]:
+Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException:
+Error creating bean with name 'loadFromJson' defined in class path resource [com/openclassrooms/safetynet/dao/JsonDAO.class]:
+Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException:
+Failed to instantiate [com.openclassrooms.safetynet.dao.EntitiesCollections]: Factory method 'loadFromJson' threw exception;
+nested exception is com.fasterxml.jackson.databind.JsonMappingException: Cannot invoke "java.util.Map.values()" because "this.persons" is null
+ at [Source: (File); line: 140, column: 5] (through reference chain: com.openclassrooms.safetynet.dao.EntitiesCollections["medicalrecords"])

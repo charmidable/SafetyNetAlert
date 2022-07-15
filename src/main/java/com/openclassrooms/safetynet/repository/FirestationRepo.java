@@ -1,7 +1,7 @@
 package com.openclassrooms.safetynet.repository;
 
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 import com.openclassrooms.safetynet.dao.EntitiesCollections;
 import com.openclassrooms.safetynet.entity.Firestation;
@@ -11,26 +11,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirestationRepo
 {
-    // =========================================
-    // =              Attribute                =
-    // =========================================
+    // ============================================
+    // =                Attribute                 =
+    // ============================================
 
     private final  EntitiesCollections collections;
 
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
+    // =============================================
+    // =               Constructors                =
+    // =============================================
 
-    private FirestationRepo(EntitiesCollections collections)
+    public FirestationRepo(EntitiesCollections collections)
     {
         this.collections = collections;
     }
 
 
-    // ===========================================
-    // =  Getters for the different collections  =
-    // ===========================================
+    // =============================================
+    // = Different getters for the same collection =
+    // =============================================
 
     public Map<Integer, List<Firestation>> getMap()
     {

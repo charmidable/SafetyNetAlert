@@ -26,7 +26,6 @@ public class Medicalrecord
     @JsonFormat(pattern = "MM/dd/yyyy")
     private         LocalDate    birthdate;
 
-
     // ======================================
     // =            Constructors            =
     // ======================================
@@ -45,6 +44,12 @@ public class Medicalrecord
     }
 
 
+    public Medicalrecord(Person person)
+    {
+        this.firstName = person.getFirstName();
+        this.lastName = person.getLastName();
+    }
+
     // ======================================
     // =          Business Methods          =
     // ======================================
@@ -59,7 +64,7 @@ public class Medicalrecord
     @JsonIgnore
     public Boolean isChild()
     {
-        if(getAge() == null) return null;
+        if(getAge() == null) return false;
         return getAge() < 19;
     }
 
@@ -70,16 +75,15 @@ public class Medicalrecord
         birthdate = null;
     }
 
-
     // ======================================
     // =           Object Methods           =
     // ======================================
 
     @Override
-    public int hashCode()
+    public final int hashCode()
     {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
+        int result = firstName.toLowerCase().hashCode();
+        result = 31 * result + lastName.toLowerCase().hashCode();
         return result;
     }
 
@@ -103,4 +107,5 @@ public class Medicalrecord
         Medicalrecord that = (Medicalrecord) o;
         return firstName.equals(that.firstName) && lastName.equals(that.lastName);
     }
+
 }

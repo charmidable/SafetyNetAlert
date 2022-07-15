@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.service;
 
 import java.util.*;
 
+import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.entity.Person;
@@ -15,7 +16,7 @@ public class URLService
     // =             Attributes             =
     // ======================================
 
-    private final PersonService personService;
+    private final PersonService      personService;
     private final FirestationService firestationService;
 
 
@@ -25,7 +26,7 @@ public class URLService
 
     public URLService(PersonService personService, FirestationService firestationService)
     {
-        this.personService = personService;
+        this.personService      = personService;
         this.firestationService = firestationService;
     }
 
@@ -50,11 +51,19 @@ public class URLService
 
     public Object childAlert(String address)
     {
-        Map<Boolean, List<Person>> map = personService.getFamilyHouseWithChildByAdress(address);
+        Map<Boolean, List<Person>> map = personService.getChildrenListAndAdultsListByAddress(address);
 
-        if(map.get(true).size() == 0) return "";
+        if(map.get(true).size() == 0 && map.get(false).size() == 0)
+        {
+            throw new EntityDoesNotExistException("The address " + address);
+        }
 
-        record DTO(String adress, List<Person> childs, List<Person> adults){}
+        if(map.get(true).size() == 0)
+        {
+            return new ArrayList<Person>() {};
+        }
+
+        record DTO(String address, List<Person> children, List<Person> adults){}
 
         return new DTO(address, map.get(true), map.get(false));
     }
@@ -72,22 +81,41 @@ public class URLService
     {
         record DTO(int stationNumber, String address, List<Person> people){}
 
-        return new DTO(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAdress(address));
+        return new DTO(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAddress(address));
     }
 
 
     public Map<Firestation, List<Person>> flood(Integer... fireStationNumbers)
     {
-        Map<Firestation, List<Person>> DTO = new HashMap<>();
+        var DTO = new HashMap<Firestation, List<Person>>();
 
-        Arrays.stream(fireStationNumbers).map(i -> firestationService.getMap().get(i))
-                                         .flatMap(List::stream)
-                                         .distinct()
-                                         .sorted()
-                                         .forEach(f -> DTO.put(f,  personService.getPersonsByAdress(f.address())));
+        try
+        {
+            Arrays.stream(fireStationNumbers)
+                  .distinct()
+                  .map(i -> firestationService.getMap().get(i))
+                  .flatMap(List::stream)
+                  .forEach(f -> DTO.put(f,  personService.getPersonsByAddress(f.address())));
+        }
+        catch (NullPointerException exception)
+        {
+            for (int i : fireStationNumbers)
+            {
+                if (!firestationService.isNumberStationExist(i))
+                {
+                    throw new EntityDoesNotExistException(" Firestation number " + i + " does not exist");
+                }
+            }
+        }
+
         return DTO;
     }
 
+
+//    public Optional<Person> personInfo(String firstName, String lastName) throws IllegalArgumentException
+//    {
+//        return personService.getPersonByName(firstName, lastName);
+//    }
 
     public Person personInfo(String firstName, String lastName)
     {
@@ -100,6 +128,12 @@ public class URLService
         record DTO(String city, List<String> email){}
 
         return new DTO(city, personService.getEmailsOfAllTheCity(city));
+    }
+
+
+    public boolean isNumberStationExist(int stationNumber)
+    {
+        return firestationService.isNumberStationExist(stationNumber);
     }
 
 

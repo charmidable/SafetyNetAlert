@@ -1,22 +1,24 @@
 package com.openclassrooms.safetynet.controller;
 
-import com.openclassrooms.safetynet.service.MedicalrecordService;
 import org.springframework.web.bind.annotation.*;
 
-import com.openclassrooms.safetynet.service.PersonService;
+import lombok.extern.slf4j.Slf4j;
+
+import com.openclassrooms.safetynet.Exception.EntityAlreadyExistException;
+import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
+import com.openclassrooms.safetynet.service.MedicalrecordService;
 import com.openclassrooms.safetynet.entity.Medicalrecord;
 
 
+@Slf4j
 @RestController
 public class MedicalrecordController
 {
-
     // ======================================
     // =             Attributes             =
     // ======================================
 
     private final MedicalrecordService service;
-
 
     // ======================================
     // =            Constructors            =
@@ -27,30 +29,65 @@ public class MedicalrecordController
         this.service = service;
     }
 
-
     // ======================================
     // =        Controller  Methods         =
     // ======================================
 
-
     @PostMapping(value = "/medicalrecord")
-    public void createMedicalRecord(Medicalrecord medicalrecord)
+    public Medicalrecord createMedicalrecord(@RequestBody Medicalrecord medicalrecord)
     {
-        service.addMedicalrecord(medicalrecord);
+        log.info("MedicalrecordController.createMedicalrecord CALLED. MedicalRecord = " + medicalrecord);
+
+        try
+        {
+            service.addMedicalrecord(medicalrecord);
+        }
+        catch (EntityAlreadyExistException exception)
+        {
+            log.error("MedicalrecordController.createMedicalRecord FAILED. MedicalRecord = " + medicalrecord);
+            throw exception;
+        }
+
+        return medicalrecord;
     }
 
 
     @PutMapping(value = "/medicalrecord")
-    public void updateMedicalRecord(Medicalrecord medicalRecord) throws Exception
+    public Medicalrecord updateMedicalRecord(@RequestBody Medicalrecord medicalrecord)
     {
-        service.updateMedicalrecord(medicalRecord);
+        log.info("MedicalrecordController.updateMedicalRecord CALLED. medicalrecord = " + medicalrecord);
+
+        try
+        {
+            service.updateMedicalrecord(medicalrecord);
+        }
+        catch (EntityDoesNotExistException exception)
+        {
+            log.error("MedicalrecordController.updateMedicalRecord FAILED. medicalrecord = " + medicalrecord);
+            throw exception;
+        }
+
+        return medicalrecord;
     }
 
 
     @DeleteMapping(value = "/medicalrecord")
-    public void deleteMedicalRecordByName(Medicalrecord medicalRecord)
+    public Medicalrecord deleteMedicalrecord(@RequestBody Medicalrecord medicalrecord)
     {
-        service.removeMedicalrecord(medicalRecord);
-    }
+        log.info("MedicalrecordController.deleteMedicalrecord CALLED. medicalrecord = " + medicalrecord);
 
+        Medicalrecord oldMedicalrecord;
+
+        try
+        {
+            oldMedicalrecord = service.removeMedicalrecord(medicalrecord);
+        }
+        catch (EntityDoesNotExistException exception)
+        {
+            log.error("MedicalrecordController.deletePerson FAILED. medicalrecord = " + medicalrecord);
+            throw exception;
+        }
+
+        return oldMedicalrecord;
+    }
 }

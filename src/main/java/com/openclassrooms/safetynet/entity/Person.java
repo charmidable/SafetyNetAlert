@@ -1,13 +1,13 @@
 package com.openclassrooms.safetynet.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-
-import java.time.LocalDate;
-import java.util.List;
 
 
 @Data
@@ -41,8 +41,8 @@ public class Person
                     String _lastName
                  )
     {
-        firstName       = _firstName;
-        lastName        = _lastName;
+        firstName = _firstName;
+        lastName  = _lastName;
     }
 
     // ======================================
@@ -107,9 +107,8 @@ public class Person
     @Override
     public final int hashCode()
     {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
+        int result = firstName.toLowerCase().hashCode();
+        result = 31 * result + lastName.toLowerCase().hashCode();
         return result;
     }
-
 }

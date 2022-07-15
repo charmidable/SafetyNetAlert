@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.dao;
 
+import          java.util.Collection;
 import          java.util.Map;
 import          java.util.List;
 import static   java.util.stream.Collectors.*;
@@ -18,9 +19,9 @@ public class EntitiesCollections
     // =             Attributes              =
     // =======================================
 
-    private   Map<Integer, Medicalrecord> medicalrecords;
-    private   Map<Integer, Person>        persons;
-    private   List<Firestation>           firestations;
+    private Map<Integer, List<Firestation>> firestations;
+    private Map<Integer, Medicalrecord>     medicalrecords;
+    private Map<Integer, Person>            persons;
 
 
     // =======================================
@@ -38,6 +39,7 @@ public class EntitiesCollections
     public void setPersons(List<Person> personList)
     {
         persons = personList.stream().collect(toMap(Person::hashCode, identity()));
+                getPersons().forEach(person -> person.setMedicalrecord(getMedicalrecordsMap().get(person.hashCode())));
     }
 
 
@@ -50,18 +52,28 @@ public class EntitiesCollections
     public void setMedicalrecords(List<Medicalrecord> recordList)
     {
         medicalrecords = recordList.stream().collect(toMap(Medicalrecord::hashCode, identity()));
+
     }
 
 
     public List<Firestation> getFirestations()
     {
-        return firestations;
+        return firestations.values().stream().flatMap(Collection::stream).toList();
     }
 
 
-    public void setFirestations(List<Firestation> firestations)
+    public void setFirestations(List<Firestation> _firestations)
     {
-        this.firestations = firestations;
+        this.firestations = _firestations.stream().collect(
+                                                            groupingBy(
+                                                                          Firestation::station,
+                                                                          mapping(
+                                                                                    identity(),
+                                                                                    toList()
+                                                                                 )
+                                                                      )
+                                                         );
+
     }
 
 
@@ -69,13 +81,11 @@ public class EntitiesCollections
     // =      Getters for Repositories       =
     // =======================================
 
-
     @JsonIgnore
     public Map<Integer, Person> getPersonsMap()
     {
         return persons;
     }
-
 
     @JsonIgnore
     Map<Integer, Medicalrecord> getMedicalrecordsMap()
@@ -83,18 +93,9 @@ public class EntitiesCollections
         return medicalrecords;
     }
 
-
     @JsonIgnore
     public Map<Integer, List<Firestation>> getFirestationsMap()
     {
-        return firestations.stream().collect(
-                                                groupingBy(
-                                                             Firestation::station,
-                                                             mapping(
-                                                                      identity(),
-                                                                      toList()
-                                                                    )
-                                                          )
-                                            );
+        return firestations;
     }
 }

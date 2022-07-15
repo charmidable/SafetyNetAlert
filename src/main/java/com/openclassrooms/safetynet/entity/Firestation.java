@@ -1,8 +1,8 @@
 package com.openclassrooms.safetynet.entity;
 
-
 import java.util.Comparator;
 import java.util.Objects;
+
 
 public record Firestation(Integer station, String address) implements Comparable<Firestation>
 {
@@ -20,7 +20,7 @@ public record Firestation(Integer station, String address) implements Comparable
     @Override
     public int hashCode()
     {
-        return Objects.hash(station, address);
+        return Objects.hash(station);
     }
 
 
@@ -41,5 +41,4 @@ public record Firestation(Integer station, String address) implements Comparable
                 ", address='" + address + '\'' +
                 '}';
     }
-
 }

@@ -2,20 +2,23 @@ package com.openclassrooms.safetynet.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.openclassrooms.safetynet.service.FirestationService;
+import lombok.extern.slf4j.Slf4j;
+
 import com.openclassrooms.safetynet.entity.Firestation;
+import com.openclassrooms.safetynet.service.FirestationService;
+import com.openclassrooms.safetynet.Exception.EntityAlreadyExistException;
+import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
 
 
+@Slf4j
 @RestController
 public class FirestationController
 {
-
     // ======================================
     // =             Attributes             =
     // ======================================
 
     private final FirestationService service;
-
 
     // ======================================
     // =            Constructors            =
@@ -26,29 +29,65 @@ public class FirestationController
         this.service = service;
     }
 
-
     // ======================================
-    // =   Controller Firestation Methods   =
+    // =        Controller  Methods         =
     // ======================================
 
     @PostMapping(value = "/firestation")
-    public void createFirestation(Firestation firestation)
+    public Firestation createFirestation(@RequestBody Firestation firestation)
     {
-        service.addFirestation(firestation);
+        log.info("FirestationController.createFirestation CALLED. firestation = " + firestation);
+
+        try
+        {
+            service.addFirestation(firestation);
+        }
+        catch (EntityAlreadyExistException exception)
+        {
+            log.error("FirestationController.createFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
+            throw exception;
+        }
+        System.out.println(service.getList());
+        return firestation;
     }
 
 
     @PutMapping(value = "/firestation")
-    public void updateFirestation(Firestation firestation)
+    public Firestation updateFirestation(@RequestBody Firestation firestation)
     {
-        service.updateFirestation(firestation);
+        log.info("FirestationController.updateFirestation CALLED. firestation = " + firestation);
+
+        try
+        {
+            service.updateFirestation(firestation);
+        }
+        catch (EntityAlreadyExistException exception)
+        {
+            log.error("FirestationController.updateFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
+            System.out.println(exception.getMessage());
+            throw exception;
+        }
+        System.out.println(service.getList());
+        return firestation;
     }
 
 
     @DeleteMapping(value = "/firestation")
-    public void deleteFirestation(Firestation firestation)
+    public Firestation deleteFirestation(@RequestBody Firestation firestation)
     {
-        service.removeFirestation(firestation);
-    }
+        log.info("FirestationController.deleteFirestation CALLED. firestation = " + firestation);
 
+        try
+        {
+            service.removeFirestation(firestation);
+        }
+        catch (EntityDoesNotExistException exception)
+        {
+            log.error("FirestationController.deleteFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
+            System.out.println(exception.getMessage());
+            throw exception;
+        }
+        System.out.println(service.getList());
+        return firestation;
+    }
 }

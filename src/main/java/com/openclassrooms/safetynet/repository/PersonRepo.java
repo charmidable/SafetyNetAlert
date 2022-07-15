@@ -12,26 +12,26 @@ import com.openclassrooms.safetynet.entity.Person;
 @Component
 public class PersonRepo
 {
-    // =========================================
-    // =              Attribute                =
-    // =========================================
+    // ============================================
+    // =                Attribute                 =
+    // ============================================
 
     private final EntitiesCollections collections;
 
 
-    // ======================================
-    // =            Constructors            =
-    // ======================================
+    // =============================================
+    // =               Constructors                =
+    // =============================================
 
-    private PersonRepo(EntitiesCollections collections)
+    public PersonRepo(EntitiesCollections collections)
     {
         this.collections = collections;
     }
 
 
-    // ===========================================
-    // =  Getters for the different collections  =
-    // ===========================================
+    // =============================================
+    // = Different getters for the same collection =
+    // =============================================
 
     public Map<Integer, Person> getMap()
     {
