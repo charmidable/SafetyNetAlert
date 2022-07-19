@@ -16,21 +16,20 @@ import org.springframework.beans.factory.annotation.Value;
 
 
 @Component
-class JsonDAO
+public  class JsonDAO
 {
     // ======================================
     // =             Attributes             =
     // ======================================
 
-    @Value("#{'${jsonpath}'}")
-    private File file;
-
     @Value("#{'${loadAndSave}'.split(';')}")
     private HashSet<String> personFieldsToKeep;
 
-    private EntitiesCollections collections;
+    @Value("#{'${jsonpath}'}")
+    private File file;
 
-    private ObjectMapper mapper;
+    private EntitiesCollections collections;
+    private ObjectMapper        mapper;
 
 
     // ======================================
@@ -40,18 +39,20 @@ class JsonDAO
     @Bean
     public EntitiesCollections loadFromJson() throws IOException
     {
-        mapper = new ObjectMapper() .registerModule(new JavaTimeModule())
-                                    .enable(SerializationFeature.INDENT_OUTPUT)
-                                    .setFilterProvider(new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep)));
-
-        collections = mapper.readValue(file, EntitiesCollections.class);
-
-        return collections;
+        initMapper(personFieldsToKeep);
+        return collections = mapper.readValue(file, EntitiesCollections.class);
     }
 
 
     public void saveToJson() throws IOException
     {
         mapper.writeValue(file, collections);
+    }
+
+    private void initMapper(HashSet<String> fields)
+    {
+        mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .setFilterProvider(new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep)));
     }
 }

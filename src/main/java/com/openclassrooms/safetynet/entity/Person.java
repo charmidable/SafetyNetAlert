@@ -92,17 +92,23 @@ public class Person
                 '}';
     }
 
+
     @Override
-    public final boolean equals(Object o)
+    public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-
-        if (!firstName.equals(person.firstName)) return false;
-        return lastName.equals(person.lastName);
+        return  firstName    .equals(person.firstName)  &&
+                lastName     .equals(person.lastName)   &&
+                address      .equals(person.address)    &&
+                phone        .equals(person.phone)      &&
+                email        .equals(person.email)      &&
+                city         .equals(person.city)       &&
+                zip          .equals(person.zip)        &&
+                medicalrecord.equals(person.medicalrecord);
     }
+
 
     @Override
     public final int hashCode()

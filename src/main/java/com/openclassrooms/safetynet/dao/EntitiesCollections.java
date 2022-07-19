@@ -39,7 +39,8 @@ public class EntitiesCollections
     public void setPersons(List<Person> personList)
     {
         persons = personList.stream().collect(toMap(Person::hashCode, identity()));
-                getPersons().forEach(person -> person.setMedicalrecord(getMedicalrecordsMap().get(person.hashCode())));
+
+        getPersons().forEach(person -> person.setMedicalrecord(getMedicalrecordsMap().get(person.hashCode())));
     }
 
 
@@ -52,7 +53,6 @@ public class EntitiesCollections
     public void setMedicalrecords(List<Medicalrecord> recordList)
     {
         medicalrecords = recordList.stream().collect(toMap(Medicalrecord::hashCode, identity()));
-
     }
 
 
@@ -62,17 +62,17 @@ public class EntitiesCollections
     }
 
 
-    public void setFirestations(List<Firestation> _firestations)
+    public void setFirestations(List<Firestation> firestationList)
     {
-        this.firestations = _firestations.stream().collect(
-                                                            groupingBy(
+        this.firestations = firestationList.stream().collect(
+                                                              groupingBy(
                                                                           Firestation::station,
                                                                           mapping(
                                                                                     identity(),
                                                                                     toList()
                                                                                  )
-                                                                      )
-                                                         );
+                                                                        )
+                                                            );
 
     }
 

@@ -1,0 +1,21 @@
+{
+  "persons":
+  [
+    { "firstName":"f1", "lastName":"l1", "address":"a1", "city":"c1", "zip":"z1", "phone":"p1", "email":"e1" },
+    { "firstName":"f2", "lastName":"l2", "address":"a2", "city":"c2", "zip":"z2", "phone":"p2", "email":"e2" }
+  ],
+
+  "firestations":
+  [
+    { "address":"a11", "station":"1" },
+    { "address":"a12", "station":"1" },
+    { "address":"a21", "station":"2" },
+    { "address":"a22", "station":"2" }
+  ],
+
+  "medicalrecords":
+  [
+    { "firstName":"f1", "lastName":"l1", "birthdate":"1/1/1", "medications":["m11", "m12"], "allergies":["a11"] },
+    { "firstName":"f2", "lastName":"l2", "birthdate":"2/2/2", "medications":["m21", "m22"], "allergies":["a22"] }
+  ]
+}

@@ -2,12 +2,12 @@ package com.openclassrooms.safetynet.service;
 
 import java.util.*;
 
-import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
+import com.openclassrooms.safetynet.dto.*;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.entity.Person;
 import com.openclassrooms.safetynet.entity.Firestation;
-
+import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
 
 @Service
 public class URLService
@@ -35,7 +35,7 @@ public class URLService
     // =       Public Service Methods       =
     // ======================================
 
-    public Object firestation(int stationNumber)
+    public FirestationDTO firestation(int stationNumber)
     {
         List<Person> personList = getPeopleByStationNumber(stationNumber);
 
@@ -43,9 +43,7 @@ public class URLService
 
         long numberOfAdult = personList.size() - numberOfChild;
 
-        record DTO(int stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people){}
-
-        return new DTO(stationNumber, numberOfChild, numberOfAdult, personList);
+        return new FirestationDTO(stationNumber, numberOfChild, numberOfAdult, personList);
     }
 
 
@@ -63,25 +61,19 @@ public class URLService
             return new ArrayList<Person>() {};
         }
 
-        record DTO(String address, List<Person> children, List<Person> adults){}
-
-        return new DTO(address, map.get(true), map.get(false));
+        return new ChildAlertDTO(address, map.get(true), map.get(false));
     }
 
 
-    public Object phoneAlert(int firestationNumber)
+    public PhoneAlertDTO phoneAlert(int firestationNumber)
     {
-        record DTO(int stationNumber, List<String> people){}
-
-        return new DTO(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
+        return new PhoneAlertDTO(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
     }
 
 
-    public Object fire(String address)
+    public FireDTO fire(String address)
     {
-        record DTO(int stationNumber, String address, List<Person> people){}
-
-        return new DTO(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAddress(address));
+        return new FireDTO(firestationService.getFirestationNumberByAdress(address), address, personService.getPersonsByAddress(address));
     }
 
 
@@ -107,15 +99,9 @@ public class URLService
                 }
             }
         }
-
         return DTO;
     }
 
-
-//    public Optional<Person> personInfo(String firstName, String lastName) throws IllegalArgumentException
-//    {
-//        return personService.getPersonByName(firstName, lastName);
-//    }
 
     public Person personInfo(String firstName, String lastName)
     {
@@ -123,11 +109,9 @@ public class URLService
     }
 
 
-    public Object communityEmail(String city)
+    public CommunityEmailDTO communityEmail(String city)
     {
-        record DTO(String city, List<String> email){}
-
-        return new DTO(city, personService.getEmailsOfAllTheCity(city));
+        return new CommunityEmailDTO(city, personService.getEmailsOfAllTheCity(city));
     }
 
 
@@ -141,7 +125,7 @@ public class URLService
     // =        Private Tool Methods        =
     // ======================================
 
-    private List<Person> getPeopleByStationNumber(int stationNumber)
+    List<Person> getPeopleByStationNumber(int stationNumber)
     {
         return  personService.getPersons()
                              .stream()

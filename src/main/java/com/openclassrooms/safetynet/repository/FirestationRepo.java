@@ -17,7 +17,6 @@ public class FirestationRepo
 
     private final  EntitiesCollections collections;
 
-
     // =============================================
     // =               Constructors                =
     // =============================================
@@ -26,7 +25,6 @@ public class FirestationRepo
     {
         this.collections = collections;
     }
-
 
     // =============================================
     // = Different getters for the same collection =

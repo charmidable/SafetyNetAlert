@@ -44,10 +44,11 @@ public class FirestationService
 
     public List<Integer> getNumberStationList()
     {
-        return firestationRepo.getList().stream()
-                .map(Firestation::station)
-                .distinct()
-                .toList();
+        return firestationRepo.getList()
+                              .stream()
+                              .map(Firestation::station)
+                              .distinct()
+                              .toList();
     }
 
 
@@ -100,7 +101,6 @@ public class FirestationService
         {
             throw new EntityAlreadyExistException("The address " + newFirestation.address() + " is already covered by the station number" +  firestation.get().station());
         }
-
         if(firestationRepo.getMap().get(newFirestation.station()) == null)
         {
             ArrayList<Firestation> stationList = new ArrayList<Firestation>();
@@ -129,9 +129,17 @@ public class FirestationService
 
     public void removeFirestation(Firestation firestation)
     {
-        if(!firestationRepo.getMap().get(firestation.station()).remove(firestation))
+        try
         {
-            throw new EntityDoesNotExistException("Firestation number " +   firestation.station() + " does not exist");
+            firestationRepo.getMap().get(firestation.station()).remove(firestation);
+            if(firestationRepo.getMap().get(firestation.station()).isEmpty())
+            {
+                firestationRepo.getMap().remove(firestation.station());
+            }
+        }
+        catch (NullPointerException exception)
+        {
+            throw new EntityDoesNotExistException("Firestation number " +   firestation.station() + "and address " + firestation.address() +" does not exist");
         }
     }
 

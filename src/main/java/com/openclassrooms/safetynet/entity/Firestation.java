@@ -1,11 +1,12 @@
 package com.openclassrooms.safetynet.entity;
 
-import java.util.Comparator;
-import java.util.Objects;
 
-
-public record Firestation(Integer station, String address) implements Comparable<Firestation>
+public record Firestation(Integer station, String address)
 {
+
+    // ======================================
+    // =           Object Methods           =
+    // ======================================
 
     @Override
     public boolean equals(Object o)
@@ -20,16 +21,7 @@ public record Firestation(Integer station, String address) implements Comparable
     @Override
     public int hashCode()
     {
-        return Objects.hash(station);
-    }
-
-
-    @Override
-    public int compareTo(Firestation o)
-    {
-        return Comparator.comparing(Firestation::station)
-                         .thenComparing(Firestation::address)
-                         .compare(this, o);
+        return station;
     }
 
 

@@ -1,6 +1,7 @@
 package com.openclassrooms.safetynet.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -70,7 +71,8 @@ public class Medicalrecord
 
     public void clearMedicalrecord()
     {
-        medications.clear();
+        setMedications(new ArrayList<>());
+        setAllergies  (new ArrayList<>());
         allergies.clear();
         birthdate = null;
     }
@@ -103,9 +105,15 @@ public class Medicalrecord
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof Medicalrecord)) return false;
-        Medicalrecord that = (Medicalrecord) o;
-        return firstName.equals(that.firstName) && lastName.equals(that.lastName);
-    }
 
+        if (!(o instanceof Medicalrecord)) return false;
+
+        Medicalrecord that = (Medicalrecord) o;
+
+        return  lastName    .equals(that.lastName   ) &&
+                firstName   .equals(that.firstName  ) &&
+                birthdate   .equals(that.birthdate  ) &&
+                allergies   .equals(that.allergies  ) &&
+                medications .equals(that.medications);
+    }
 }

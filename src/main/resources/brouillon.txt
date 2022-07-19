@@ -178,3 +178,130 @@ Bean instantiation via factory method failed; nested exception is org.springfram
 Failed to instantiate [com.openclassrooms.safetynet.dao.EntitiesCollections]: Factory method 'loadFromJson' threw exception;
 nested exception is com.fasterxml.jackson.databind.JsonMappingException: Cannot invoke "java.util.Map.values()" because "this.persons" is null
  at [Source: (File); line: 140, column: 5] (through reference chain: com.openclassrooms.safetynet.dao.EntitiesCollections["medicalrecords"])
+ ------------------------------------------------------------------------------------------------------------------
+
+
+ //
+ // Source code recreated from a .class file by IntelliJ IDEA
+ // (powered by FernFlower decompiler)
+ //
+
+ package com.openclassrooms.safetynet.dao;
+
+ import com.openclassrooms.safetynet.entity.Firestation;
+ import com.openclassrooms.safetynet.entity.Medicalrecord;
+ import com.openclassrooms.safetynet.entity.Person;
+ import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.List;
+ import org.junit.jupiter.api.BeforeAll;
+ import org.junit.jupiter.api.Test;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.test.context.TestPropertySource;
+
+ @SpringBootTest
+ @TestPropertySource(
+     locations = {".../src/test/resources/application.properties"}
+ )
+ class JsonDAOTest {
+     @Autowired
+     JsonDAO jsonDAO = new JsonDAO();
+     @Autowired
+     EntitiesCollections collections;
+     static List<Person> personsListTest;
+     static List<Medicalrecord> medicalrecordListTest;
+     static List<Firestation> firestationListTest;
+
+     JsonDAOTest() {
+     }
+
+     @BeforeAll
+     private static void setUp() {
+         Person p1 = new Person("f1", "l2");
+         p1.setCity("c1");
+         p1.setPhone("p1");
+         p1.setEmail("e1");
+         p1.setZip(1);
+         p1.setAddress("a1");
+         Person p2 = new Person("f2", "l2");
+         p1.setCity("c2");
+         p1.setPhone("p2");
+         p1.setEmail("e2");
+         p1.setZip(2);
+         p1.setAddress("a2");
+         Medicalrecord mr1 = new Medicalrecord(p1);
+         mr1.setAllergies(Arrays.asList("a11", "a12"));
+         mr1.setMedications(Arrays.asList("m11", "m12"));
+         p1.setMedicalrecord(mr1);
+         Medicalrecord mr2 = new Medicalrecord(p2);
+         mr2.setAllergies(Arrays.asList("a21", "a22"));
+         mr2.setMedications(Arrays.asList("m21", "m22"));
+         p2.setMedicalrecord(mr2);
+         Firestation f11 = new Firestation(1, "a11");
+         Firestation f12 = new Firestation(1, "a12");
+         Firestation f21 = new Firestation(2, "a21");
+         Firestation f22 = new Firestation(2, "a22");
+         personsListTest = new ArrayList();
+         medicalrecordListTest = new ArrayList();
+         firestationListTest = new ArrayList();
+         personsListTest.add(p1);
+         personsListTest.add(p2);
+         medicalrecordListTest.add(mr1);
+         medicalrecordListTest.add(mr2);
+         firestationListTest.add(f21);
+         firestationListTest.add(f22);
+         firestationListTest.add(f11);
+         firestationListTest.add(f12);
+     }
+
+     @Test
+     void testLoadFromJson() throws IOException {
+     }
+
+     @Test
+     void testsSaveToJson() {
+     }
+ }
+
+=========================================================================================
+  "medicalrecords":
+   [
+     { "firstName":"f1", "lastName":"l1", "birthdate":"01/01/0001", "medications":["m11", "m12"], "allergies":["a11"] },
+     { "firstName":"f2", "lastName":"l2", "birthdate":"02/02/0002", "medications":["m21", "m22"], "allergies":["a22"] }
+   ]
+========================================================================================
+
+{
+  "medicalrecords":
+  [
+    { "firstName" : "f1",
+      "lastName" : "l1",
+      "allergies" : [ ],
+      "medications" : [ ],
+      "birthdate" : "07/08/1980" },
+
+    { "firstName" : "f2",
+      "lastName" : "l2",
+      "allergies" : [ ],
+      "medications" : [ ],
+      "birthdate" : "07/08/1980" }
+  ],
+
+  "firestations":
+  [
+    { "address":"a11", "station":1 },
+    { "address":"a12", "station":1 },
+    { "address":"a21", "station":2 },
+    { "address":"a22", "station":2 }
+  ],
+
+  "persons":
+  [
+    { "firstName":"f1", "lastName":"l1", "address":"a1", "city":"c1", "zip":1, "phone":"p1", "email":"e1" },
+    { "firstName":"f2", "lastName":"l2", "address":"a2", "city":"c2", "zip":2, "phone":"p2", "email":"e2" }
+  ]
+}
+
+
