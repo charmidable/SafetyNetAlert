@@ -24,9 +24,9 @@ public class MedicalrecordController
     // =            Constructors            =
     // ======================================
 
-    public MedicalrecordController(MedicalrecordService service)
+    public MedicalrecordController(MedicalrecordService _service)
     {
-        this.service = service;
+        this.service = _service;
     }
 
     // ======================================

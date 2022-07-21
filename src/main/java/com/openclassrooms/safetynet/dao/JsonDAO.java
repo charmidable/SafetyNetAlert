@@ -52,7 +52,7 @@ public  class JsonDAO
     private void initMapper(HashSet<String> fields)
     {
         mapper = new ObjectMapper().registerModule(new JavaTimeModule())
-                .enable(SerializationFeature.INDENT_OUTPUT)
-                .setFilterProvider(new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep)));
+                                   .enable(SerializationFeature.INDENT_OUTPUT)
+                                   .setFilterProvider(new SimpleFilterProvider().addFilter("person_filter", SimpleBeanPropertyFilter.filterOutAllExcept(personFieldsToKeep)));
     }
 }

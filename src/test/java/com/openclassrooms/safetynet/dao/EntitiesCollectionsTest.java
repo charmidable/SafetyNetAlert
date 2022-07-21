@@ -1,11 +1,10 @@
 package com.openclassrooms.safetynet.dao;
 
-import static   com.openclassrooms.safetynet.dao.MapListComparison.*;
-
-import static   org.junit.jupiter.api.Assertions.*;
+import          org.hamcrest.Matchers;
 import          org.junit.jupiter.api.Test;
 
-import          org.hamcrest.Matchers;
+import static   org.junit.jupiter.api.Assertions.*;
+import static   com.openclassrooms.safetynet.dao.MapListComparison.*;
 
 
 class EntitiesCollectionsTest extends DAOTest
@@ -29,24 +28,20 @@ class EntitiesCollectionsTest extends DAOTest
     }
 
     @Test
-    void setPersons()
+    void testSetPersons()
     {
-        System.out.println(data.getPersonsListTest());
-        System.out.println(" ");
-        System.out.println(collections.getPersonsMap());
-        System.out.println(" ");
-        assertTrue( areListAndMapOfEntityAreEqual(data.getPersonsListTest(), collections.getPersonsMap()) );
+        assertTrue( areListAndMapOfEntityEqual(data.getPersonsListTest(), collections.getPersonsMap()) );
     }
 
     @Test
-    void setMedicalrecords()
+    void testSetMedicalrecords()
     {
-        assertTrue( areListAndMapOfEntityAreEqual(data.getMedicalrecordListTest(), collections.getMedicalrecordsMap()) );
+        assertTrue( areListAndMapOfEntityEqual(data.getMedicalrecordListTest(), collections.getMedicalrecordsMap()) );
     }
 
     @Test
-    void setFirestations()
+    void testSetFirestations()
     {
-        assertTrue( areListAndMapOfListOfEntityAreEqual(data.getFirestationListTest(), collections.getFirestationsMap()) );
+        assertTrue( areListAndMapOfListOfEntityEqual(data.getFirestationListTest(), collections.getFirestationsMap()) );
     }
 }

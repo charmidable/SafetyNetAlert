@@ -41,6 +41,7 @@ public class EntitiesCollections
         persons = personList.stream().collect(toMap(Person::hashCode, identity()));
 
         getPersons().forEach(person -> person.setMedicalrecord(getMedicalrecordsMap().get(person.hashCode())));
+
     }
 
 
@@ -66,7 +67,7 @@ public class EntitiesCollections
     {
         this.firestations = firestationList.stream().collect(
                                                               groupingBy(
-                                                                          Firestation::station,
+                                                                          Firestation::hashCode,
                                                                           mapping(
                                                                                     identity(),
                                                                                     toList()

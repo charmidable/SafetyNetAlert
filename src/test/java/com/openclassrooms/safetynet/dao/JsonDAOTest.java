@@ -4,39 +4,40 @@ import          java.io.IOException;
 
 import          org.springframework.beans.factory.annotation.Autowired;
 
-import static   com.openclassrooms.safetynet.dao.MapListComparison.*;
-
 import          org.junit.jupiter.api.*;
 import static   org.junit.jupiter.api.Assertions.assertTrue;
 
+import static   com.openclassrooms.safetynet.dao.MapListComparison.*;
 
 class JsonDAOTest extends DAOTest
 {
     @Autowired
     JsonDAO dao;
 
-    void validateDataMap()
+    void validateDataIntegrity()
     {
-        assertTrue( areListAndMapOfEntityAreEqual      ( data.getPersonsListTest(),       collections.getPersonsMap()        ) );
-        assertTrue( areListAndMapOfEntityAreEqual      ( data.getMedicalrecordListTest(), collections.getMedicalrecordsMap() ) );
-        assertTrue( areListAndMapOfListOfEntityAreEqual( data.getFirestationListTest(),   collections.getFirestationsMap()   ) );
+        assertTrue( areListAndMapOfEntityEqual(data.getPersonsListTest(), collections.getPersonsMap()) );
+
+        assertTrue( areListAndMapOfEntityEqual(data.getMedicalrecordListTest(), collections.getMedicalrecordsMap()) );
+
+        assertTrue( areListAndMapOfListOfEntityEqual(data.getFirestationListTest(), collections.getFirestationsMap()) );
     }
 
 
     @Test
     @DisplayName("Test loadFromJson() method")
-    void loadFromJson()
+    void testLoadFromJson()
     {
-        validateDataMap();
+        validateDataIntegrity();
     }
 
 
     @Test
     @DisplayName("Test saveToJson() method")
-    void saveToJson() throws IOException
+    void testSaveToJson() throws IOException
     {
         dao.saveToJson();
         dao.loadFromJson();
-        validateDataMap();
+        validateDataIntegrity();
     }
 }

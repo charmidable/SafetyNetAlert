@@ -24,7 +24,7 @@ class PersonTest
     private String        phone       = "999";
     private String        email       = "aa@aa";
     private String        city        = "town";
-    private int           zip         =  222;
+    private String        zip         = "222";
 
     @BeforeEach
     void setUp()
@@ -183,7 +183,7 @@ class PersonTest
     void testSetZip()
     {
         assertEquals(person.getZip(), zip);
-        person.setZip(111);
+        person.setZip("111");
         assertNotEquals(person.getZip(), zip);
     }
 

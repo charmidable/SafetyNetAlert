@@ -138,7 +138,7 @@ public class PersonService
             throw new EntityDoesNotExistException("Person with first name " + newPerson.getFirstName() + " and last name " + newPerson.getLastName() + " does not exist");
         }
 
-        if(oldPerson != null)
+        else
         {
             if (newPerson.getAddress() != null) oldPerson.setAddress (newPerson.getAddress());
             if (newPerson.getEmail()   != null) oldPerson.setEmail   (newPerson.getEmail());

@@ -38,12 +38,12 @@ public class MedicalrecordService
 
         if(personRepo.getMap().get(medicalrecord.hashCode()) ==  null)
         {
-            throw new EntityDoesNotExistException("Person with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " does not exist");
+            throw new EntityDoesNotExistException("Person with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " does not exist.");
         }
 
         if(personRepo.getMap().get(medicalrecord.hashCode()).getMedicalrecord().getAge() != null)
         {
-            throw new EntityAlreadyExistException("Medical record with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " already exists");
+            throw new EntityAlreadyExistException("Medical record with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " already exists.");
         }
 
         person.setMedicalrecord(medicalrecord);
@@ -58,7 +58,12 @@ public class MedicalrecordService
 
         if(person == null)
         {
-            throw new EntityDoesNotExistException("Person with first name " + newMedicalrecord.getFirstName() + " and last name " + newMedicalrecord.getLastName() + " does not exist");
+            throw new EntityDoesNotExistException("Person with first name " + newMedicalrecord.getFirstName() + " and last name " + newMedicalrecord.getLastName() + " does not exist.");
+        }
+
+        if(person.getMedicalrecord().getBirthdate() == null)
+        {
+            throw new EntityDoesNotExistException("Person with first name " + newMedicalrecord.getFirstName() + " and last name " + newMedicalrecord.getLastName() + " have no medical record.");
         }
 
         if(newMedicalrecord.getBirthdate()   != null) person.getMedicalrecord().setBirthdate   (newMedicalrecord.getBirthdate());
@@ -76,6 +81,11 @@ public class MedicalrecordService
         if(person == null)
         {
             throw new EntityDoesNotExistException("Person with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " does not exist");
+        }
+
+        if(person.getMedicalrecord().getBirthdate() == null)
+        {
+            throw new EntityDoesNotExistException("Person with first name " + medicalrecord.getFirstName() + " and last name " + medicalrecord.getLastName() + " have no medical record.");
         }
 
         person.getMedicalrecord().clearMedicalrecord();

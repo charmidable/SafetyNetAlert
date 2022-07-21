@@ -24,9 +24,9 @@ public class FirestationController
     // =            Constructors            =
     // ======================================
 
-    public FirestationController(FirestationService service)
+    public FirestationController(FirestationService _service)
     {
-        this.service = service;
+        this.service = _service;
     }
 
     // ======================================
@@ -47,7 +47,6 @@ public class FirestationController
             log.error("FirestationController.createFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
             throw exception;
         }
-        System.out.println(service.getList());
         return firestation;
     }
 
@@ -61,13 +60,11 @@ public class FirestationController
         {
             service.updateFirestation(firestation);
         }
-        catch (EntityAlreadyExistException exception)
+        catch (EntityDoesNotExistException exception)
         {
             log.error("FirestationController.updateFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
-            System.out.println(exception.getMessage());
             throw exception;
         }
-        System.out.println(service.getList());
         return firestation;
     }
 
@@ -84,10 +81,8 @@ public class FirestationController
         catch (EntityDoesNotExistException exception)
         {
             log.error("FirestationController.deleteFirestation FAILED. firestation = " + firestation + "  " + exception.getMessage());
-            System.out.println(exception.getMessage());
             throw exception;
         }
-        System.out.println(service.getList());
         return firestation;
     }
 }

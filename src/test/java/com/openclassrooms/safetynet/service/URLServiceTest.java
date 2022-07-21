@@ -1,18 +1,22 @@
 package com.openclassrooms.safetynet.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
 import com.openclassrooms.safetynet.dto.*;
 import com.openclassrooms.safetynet.entity.Firestation;
 import com.openclassrooms.safetynet.entity.Person;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import        org.junit.jupiter.api.Test;
+
 
 @SpringBootTest
 @TestPropertySource(properties = {"jsonpath=src/test/resources/data.json"})
@@ -30,7 +34,7 @@ class URLServiceTest
     @Test
     void testFirestation()
     {
-        Integer i = 3;
+        String i = "3";
         FirestationDTO dto = urlService.firestation(i);
         assertEquals(dto.stationNumber(), i);
         assertEquals(dto.numberOfAdults(), 2);
@@ -40,7 +44,7 @@ class URLServiceTest
         assertTrue(dto.people().contains(personService.getPersonByName("f32", "l3")));
         assertTrue(dto.people().contains(personService.getPersonByName("f33", "l3")));
 
-        assertThrows(EntityDoesNotExistException.class, () -> urlService.firestation(9));
+        assertThrows(EntityDoesNotExistException.class, () -> urlService.firestation("9"));
     }
 
     @Test
@@ -55,19 +59,21 @@ class URLServiceTest
         assertTrue(dto.adults().contains(personService.getPersonByName("f32", "l3")));
         assertTrue(dto.adults().contains(personService.getPersonByName("f31", "l3")));
 
+        assertTrue(() -> ((List)(urlService.childAlert("a1"))).isEmpty());
+
         assertThrows(EntityDoesNotExistException.class, () -> urlService.childAlert("xxx"));
     }
 
     @Test
     void testPhoneAlert()
     {
-        int stationNumber = 3;
+        String stationNumber = "3";
         PhoneAlertDTO dto = urlService.phoneAlert(stationNumber);
         assertEquals(dto.stationNumber(), stationNumber);
         assertEquals(dto.phoneList().size(), 1);
         assertTrue(dto.phoneList().contains("p3"));
 
-        assertThrows(EntityDoesNotExistException.class, () -> urlService.phoneAlert(9));
+        assertThrows(EntityDoesNotExistException.class, () -> urlService.phoneAlert("9"));
     }
 
     @Test
@@ -76,7 +82,7 @@ class URLServiceTest
         String address = "a33";
         FireDTO dto = urlService.fire(address);
         assertEquals(dto.address(), address);
-        assertEquals(dto.stationNumber(), 3);
+        assertEquals(dto.stationNumber(), "3");
         assertEquals(dto.people().size(), 3);
         assertTrue(dto.people().contains(personService.getPersonByName("f33", "l3")));
         assertTrue(dto.people().contains(personService.getPersonByName("f32", "l3")));
@@ -88,7 +94,7 @@ class URLServiceTest
     @Test
     void testFlood()
     {
-        Map<Firestation, List<Person>> dto = urlService.flood(1,2,3);
+        Map<Firestation, List<Person>> dto = urlService.flood("1","2","3");
         assertEquals(dto.keySet().size(), 3);
         System.out.println(dto.keySet());
         Firestation f1 = firestationService.getFirestationByAdress("a1").get();
@@ -106,7 +112,7 @@ class URLServiceTest
         assertTrue(dto.get(f3).contains(personService.getPersonByName("f32", "l3")));
         assertTrue(dto.get(f3).contains(personService.getPersonByName("f31", "l3")));
 
-        assertThrows(EntityDoesNotExistException.class, () -> urlService.flood(1, 2, 3, 9));
+        assertThrows(EntityDoesNotExistException.class, () -> urlService.flood("1", "2", "3", "9"));
     }
 
     @Test
@@ -133,19 +139,19 @@ class URLServiceTest
     @Test
     void testIsNumberStationExist()
     {
-        assertTrue(urlService.isNumberStationExist(1));
-        assertFalse(urlService.isNumberStationExist(9));
+        assertTrue(urlService.isNumberStationExist("1"));
+        assertFalse(urlService.isNumberStationExist("9"));
     }
 
     @Test
     void testGetPeopleByStationNumber()
     {
-        List<Person> people = urlService.getPeopleByStationNumber(3);
+        List<Person> people = urlService.getPeopleByStationNumber("3");
         assertEquals(people.size(), 3);
         assertTrue(people.contains(personService.getPersonByName("f33", "l3")));
         assertTrue(people.contains(personService.getPersonByName("f32", "l3")));
         assertTrue(people.contains(personService.getPersonByName("f31", "l3")));
 
-        assertThrows(EntityDoesNotExistException.class, () -> urlService.getPeopleByStationNumber(9));
+        assertThrows(EntityDoesNotExistException.class, () -> urlService.getPeopleByStationNumber("9"));
     }
 }

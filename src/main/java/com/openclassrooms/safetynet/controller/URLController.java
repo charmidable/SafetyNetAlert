@@ -4,11 +4,11 @@ import        java.util.Arrays;
 import        java.util.HashSet;
 import static java.util.stream.Collectors.joining;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.*;
+import        org.springframework.beans.factory.annotation.Value;
+import        org.springframework.http.converter.json.MappingJacksonValue;
+import        org.springframework.web.bind.annotation.*;
 
-import lombok.extern.slf4j.Slf4j;
+import        lombok.extern.slf4j.Slf4j;
 
 import        com.openclassrooms.safetynet.service.URLService;
 import        com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
@@ -45,16 +45,16 @@ class URLController
     // ======================================
 
     @GetMapping("/firestation")
-    private MappingJacksonValue firestation(@RequestParam final int stationNumber)
+    private MappingJacksonValue firestation(@RequestParam final String stationNumber)
     {
-        log.info("URLController.phoneAlert called with station number = " + stationNumber);
+        log.info("URLController.firestation called with station number = " + stationNumber);
         try
         {
             return mapping(service.firestation(stationNumber), firestationFields);
         }
         catch(EntityDoesNotExistException exception)
         {
-            log.error("URLController.phoneAlert failed with station number = " + stationNumber);
+            log.error("URLController.firestation failed with station number = " + stationNumber);
 
             throw exception;
         }
@@ -64,7 +64,7 @@ class URLController
     @GetMapping("/childAlert")
     private MappingJacksonValue childAlert(@RequestParam final String address)
     {
-        log.info("URLController.phoneAlert called with address = " + address);
+        log.info("URLController.childAlert called with address = " + address);
 
         try
         {
@@ -72,7 +72,7 @@ class URLController
         }
         catch(EntityDoesNotExistException exception)
         {
-            log.error("URLController.phoneAlert failed with address = " + address);
+            log.error("URLController.childAlert failed with address = " + address);
 
             throw exception;
         }
@@ -82,21 +82,21 @@ class URLController
     @GetMapping("/fire")
     private MappingJacksonValue fire(@RequestParam final String address)
     {
-        log.info("URLController.phoneAlert called with address = " + address);
+        log.info("URLController.fire called with address = " + address);
         try
         {
             return mapping(service.fire(address), fireFields);
         }
         catch(EntityDoesNotExistException exception)
         {
-            log.error("URLController.phoneAlert failed with address = " + address);
+            log.error("URLController.fire failed with address = " + address);
             throw exception;
         }
     }
 
 
     @GetMapping("/flood")
-    private MappingJacksonValue flood(@RequestParam final Integer... aListOfStationNumber)
+    private MappingJacksonValue flood(@RequestParam final String... aListOfStationNumber)
     {
         log.info("URLController.flood called with station numbers = " + Arrays.stream(aListOfStationNumber).map(i -> i.toString()).collect(joining(", ")));
         try
@@ -129,7 +129,7 @@ class URLController
 
 
     @GetMapping("/phoneAlert")
-    private Object phoneAlert(@RequestParam final int stationNumber)
+    private Object phoneAlert(@RequestParam final String stationNumber)
     {
         log.info("URLController.phoneAlert called with stationNumber = " + stationNumber);
         try

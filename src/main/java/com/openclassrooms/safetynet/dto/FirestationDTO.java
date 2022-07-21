@@ -6,7 +6,7 @@ import com.openclassrooms.safetynet.entity.Person;
 
 
 
-public record FirestationDTO(int stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people)
+public record FirestationDTO(String stationNumber, long numberOfChilds, long numberOfAdults, List<Person> people)
 {
 
 }

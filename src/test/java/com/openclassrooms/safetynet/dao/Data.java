@@ -25,14 +25,14 @@ class Data
     // ======================================
     {
         Person p1 = new Person("f1", "l1");
-        p1.setZip(1);
+        p1.setZip("1");
         p1.setCity("c1");
         p1.setPhone("p1");
         p1.setEmail("e1");
         p1.setAddress("a1");
 
         Person p2 = new Person("f2", "l2");
-        p2.setZip(2);
+        p2.setZip("2");
         p2.setCity("c2");
         p2.setPhone("p2");
         p2.setEmail("e2");
@@ -41,21 +41,21 @@ class Data
         //=============================================================
 
         Person p3 = new Person("f31", "l3");
-        p3.setZip(3);
+        p3.setZip("3");
         p3.setCity("c3");
         p3.setPhone("p3");
         p3.setEmail("e3");
         p3.setAddress("a33");
 
         Person p4 = new Person("f32", "l3");
-        p4.setZip(3);
+        p4.setZip("3");
         p4.setCity("c3");
         p4.setPhone("p3");
         p4.setEmail("e3");
         p4.setAddress("a33");
 
         Person p5 = new Person("f33", "l3");
-        p5.setZip(3);
+        p5.setZip("3");
         p5.setCity("c3");
         p5.setPhone("p3");
         p5.setEmail("e3");
@@ -97,14 +97,9 @@ class Data
         p5.setMedicalrecord(mr5);
 
 
-
-
-
-        //=============================================================
-
-        Firestation f11 = new Firestation(1, "a1");
-        Firestation f21 = new Firestation(2, "a2");
-        Firestation f31 = new Firestation(3, "a33");
+        Firestation f11 = new Firestation("1", "a1");
+        Firestation f21 = new Firestation("2", "a2");
+        Firestation f31 = new Firestation("3", "a33");
 
         medicalrecordListTest.add(mr1);
         medicalrecordListTest.add(mr2);

@@ -15,8 +15,7 @@
     { "address":"a12", "station":"1" },
     { "address":"a21", "station":"2" },
     { "address":"a22", "station":"2" },
-
-    { "address":"a33" , "station":"3" }
+    { "address":"a33", "station":"3" }
   ],
 
   "medicalrecords":

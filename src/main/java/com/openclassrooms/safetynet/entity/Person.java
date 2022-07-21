@@ -24,7 +24,7 @@ public class Person
     private         String          city;
     private         String          phone;
     private         String          email;
-    private         Integer         zip;
+    private         String          zip;
     private         Medicalrecord   medicalrecord;
 
 

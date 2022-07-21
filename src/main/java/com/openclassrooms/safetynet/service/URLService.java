@@ -24,10 +24,10 @@ public class URLService
     // =            Constructors            =
     // ======================================
 
-    public URLService(PersonService personService, FirestationService firestationService)
+    public URLService(PersonService _personService, FirestationService _firestationService)
     {
-        this.personService      = personService;
-        this.firestationService = firestationService;
+        this.personService      = _personService;
+        this.firestationService = _firestationService;
     }
 
 
@@ -35,7 +35,7 @@ public class URLService
     // =       Public Service Methods       =
     // ======================================
 
-    public FirestationDTO firestation(int stationNumber)
+    public FirestationDTO firestation(String stationNumber)
     {
         List<Person> personList = getPeopleByStationNumber(stationNumber);
 
@@ -65,7 +65,7 @@ public class URLService
     }
 
 
-    public PhoneAlertDTO phoneAlert(int firestationNumber)
+    public PhoneAlertDTO phoneAlert(String firestationNumber)
     {
         return new PhoneAlertDTO(firestationNumber, getPeopleByStationNumber(firestationNumber).stream().map(Person::getPhone).distinct().toList());
     }
@@ -77,21 +77,21 @@ public class URLService
     }
 
 
-    public Map<Firestation, List<Person>> flood(Integer... fireStationNumbers)
+    public Map<Firestation, List<Person>> flood(String... fireStationNumbers)
     {
-        var DTO = new HashMap<Firestation, List<Person>>();
+        var DTO = new TreeMap<Firestation, List<Person>>();
 
         try
         {
             Arrays.stream(fireStationNumbers)
                   .distinct()
-                  .map(i -> firestationService.getMap().get(i))
+                  .map(i -> firestationService.getMap().get(Objects.hash(i)))
                   .flatMap(List::stream)
                   .forEach(f -> DTO.put(f,  personService.getPersonsByAddress(f.address())));
         }
         catch (NullPointerException exception)
         {
-            for (int i : fireStationNumbers)
+            for (String i : fireStationNumbers)
             {
                 if (!firestationService.isNumberStationExist(i))
                 {
@@ -115,7 +115,7 @@ public class URLService
     }
 
 
-    public boolean isNumberStationExist(int stationNumber)
+    public boolean isNumberStationExist(String stationNumber)
     {
         return firestationService.isNumberStationExist(stationNumber);
     }
@@ -125,7 +125,7 @@ public class URLService
     // =        Private Tool Methods        =
     // ======================================
 
-    List<Person> getPeopleByStationNumber(int stationNumber)
+    List<Person> getPeopleByStationNumber(String stationNumber)
     {
         return  personService.getPersons()
                              .stream()

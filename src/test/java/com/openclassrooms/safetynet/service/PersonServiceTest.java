@@ -1,20 +1,23 @@
 package com.openclassrooms.safetynet.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.openclassrooms.safetynet.Exception.EntityAlreadyExistException;
 import com.openclassrooms.safetynet.Exception.EntityDoesNotExistException;
 import com.openclassrooms.safetynet.entity.Medicalrecord;
 import com.openclassrooms.safetynet.entity.Person;
 import com.openclassrooms.safetynet.repository.PersonRepo;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
+import        org.junit.jupiter.api.Test;
+
+import org.hamcrest.Matchers;
+
 
 @SpringBootTest
 @TestPropertySource(properties = {"jsonpath=src/test/resources/data.json"})
@@ -94,6 +97,7 @@ class PersonServiceTest
         service.addPerson(person);
         assertEquals(service.getPersonByName(person.getFirstName(), person.getLastName()), person);
         assertThrows(EntityAlreadyExistException.class, () -> service.addPerson(person));
+        // CLEAN
         service.removePerson(person);
     }
 
@@ -104,6 +108,7 @@ class PersonServiceTest
         assertNotNull(person = service.getPersonByName("f1", "l1"));
         service.removePerson(person);
         assertThrows(EntityDoesNotExistException.class, () -> service.getPersonByName("f1", "l1"));
+        // CLEAN
         service.addPerson(person);
     }
 
@@ -120,7 +125,7 @@ class PersonServiceTest
         String email    = person2.getEmail();
         String phone    = person2.getPhone();
         String city     = person2.getCity();
-        int    zip      = person2.getZip();
+        String zip      = person2.getZip();
         Medicalrecord mr= person2.getMedicalrecord();
 
         Person person3 = new Person(person2.getFirstName(), person2.getLastName());
@@ -128,7 +133,7 @@ class PersonServiceTest
         person3.setEmail("eee");
         person3.setPhone("ppp");
         person3.setCity("ccc");
-        person3.setZip(666);
+        person3.setZip("666");
         Medicalrecord mr2 = new Medicalrecord(person3);
         person3.setMedicalrecord(mr2);
 
@@ -149,11 +154,12 @@ class PersonServiceTest
         assertEquals(person4.getCity(), "ccc");
 
         assertNotEquals(person4.getZip(), zip);
-        assertEquals(person4.getZip(), 666);
+        assertEquals(person4.getZip(), "666");
 
         assertNotEquals(person4.getMedicalrecord(), mr2);
         assertEquals(person4.getMedicalrecord(), mr);
 
+        // CLEAN
         Person person5 = new Person(person4.getFirstName(), person4.getLastName());
         person5.setAddress(address);
         person5.setEmail(email);

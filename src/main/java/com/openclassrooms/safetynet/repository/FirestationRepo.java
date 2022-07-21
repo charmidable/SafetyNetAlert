@@ -21,9 +21,9 @@ public class FirestationRepo
     // =               Constructors                =
     // =============================================
 
-    public FirestationRepo(EntitiesCollections collections)
+    public FirestationRepo(EntitiesCollections _collections)
     {
-        this.collections = collections;
+        this.collections = _collections;
     }
 
     // =============================================

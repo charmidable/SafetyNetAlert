@@ -23,9 +23,9 @@ public class PersonRepo
     // =               Constructors                =
     // =============================================
 
-    public PersonRepo(EntitiesCollections collections)
+    public PersonRepo(EntitiesCollections _collections)
     {
-        this.collections = collections;
+        this.collections = _collections;
     }
 
 

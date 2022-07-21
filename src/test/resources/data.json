@@ -1,12 +1,12 @@
 {
   "firestations" : [ {
-    "station" : 1,
+    "station" : "1",
     "address" : "a1"
   }, {
-    "station" : 2,
+    "station" : "2",
     "address" : "a2"
   }, {
-    "station" : 3,
+    "station" : "3",
     "address" : "a33"
   } ],
   "medicalrecords" : [ {
@@ -47,7 +47,7 @@
     "city" : "c1",
     "phone" : "p1",
     "email" : "e1",
-    "zip" : 1
+    "zip" : "1"
   }, {
     "firstName" : "f2",
     "lastName" : "l2",
@@ -55,7 +55,7 @@
     "city" : "c2",
     "phone" : "p2",
     "email" : "e2",
-    "zip" : 2
+    "zip" : "2"
   }, {
     "firstName" : "f31",
     "lastName" : "l3",
@@ -63,7 +63,7 @@
     "city" : "c3",
     "phone" : "p3",
     "email" : "e3",
-    "zip" : 3
+    "zip" : "3"
   }, {
     "firstName" : "f32",
     "lastName" : "l3",
@@ -71,7 +71,7 @@
     "city" : "c3",
     "phone" : "p3",
     "email" : "e3",
-    "zip" : 3
+    "zip" : "3"
   }, {
     "firstName" : "f33",
     "lastName" : "l3",
@@ -79,6 +79,6 @@
     "city" : "c3",
     "phone" : "p3",
     "email" : "e3",
-    "zip" : 3
+    "zip" : "3"
   } ]
 }

@@ -4,7 +4,7 @@ import com.openclassrooms.safetynet.entity.Person;
 
 import java.util.List;
 
-public record FireDTO(int stationNumber, String address, List<Person> people)
+public record FireDTO(String stationNumber, String address, List<Person> people)
 {
 
 }

@@ -16,6 +16,7 @@ import com.openclassrooms.safetynet.entity.Firestation;
 
 import static org.junit.jupiter.api.Assertions.*;
 import        org.junit.jupiter.api.Test;
+
 import        org.hamcrest.Matchers;
 
 
@@ -44,76 +45,76 @@ class FirestationServiceTest
     @Test
     void testGetNumberStationList()
     {
-        assertEquals(service.getNumberStationList(), Arrays.asList(1, 2, 3));
+        assertEquals(service.getNumberStationList(), Arrays.asList("1", "2", "3"));
     }
 
     @Test
     void testGetFirestationByAdress()
     {
-        assertEquals(service.getFirestationByAdress("a1"), Optional.of(new Firestation(1, "a1")));
+        assertEquals(service.getFirestationByAdress("a1"), Optional.of(new Firestation("1", "a1")));
         assertFalse(service.getFirestationByAdress("xxx").isPresent());
     }
 
     @Test
     void testGetFirestationNumberByAdress()
     {
-        assertEquals(service.getFirestationNumberByAdress("a1"), 1);
+        assertEquals(service.getFirestationNumberByAdress("a1"), "1");
         assertThrows(EntityDoesNotExistException.class,  () -> service.getFirestationNumberByAdress("xxx") );
     }
 
     @Test
     void testIsNumberStationExist()
     {
-        assertTrue(service.isNumberStationExist(1));
-        assertFalse(service.isNumberStationExist(9));
+        assertTrue(service.isNumberStationExist("1"));
+        assertFalse(service.isNumberStationExist("9"));
     }
 
     @Test
     void testGetAdressesCoveredByTheFireStation()
     {
-        Matchers.containsInAnyOrder(service.getAdressesCoveredByTheFireStation(1),(Arrays.asList("a1", "a2") ));
+        Matchers.containsInAnyOrder(service.getAdressesCoveredByTheFireStation("1"),(Arrays.asList("a1", "a2") ));
     }
 
     @Test
     void testAddFirestation() throws IOException
     {
-        assertThrows( EntityAlreadyExistException.class,  () -> service.addFirestation(new Firestation(9,"a1")) );
-        service.addFirestation(new Firestation(1,"xxx"));
-        Matchers.containsInAnyOrder(service.getAdressesCoveredByTheFireStation(1), Arrays.asList("a1", "a2", "xxx"));
-        service.removeFirestation(new Firestation(1,"xxx"));
-        service.addFirestation(new Firestation(9,"yyy"));
-        assertEquals(service.getAdressesCoveredByTheFireStation(9), Arrays.asList("yyy"));
-        service.removeFirestation(new Firestation(9,"yyy"));
+        assertThrows( EntityAlreadyExistException.class,  () -> service.addFirestation(new Firestation("9","a1")) );
+        service.addFirestation(new Firestation("1","xxx"));
+        Matchers.containsInAnyOrder(service.getAdressesCoveredByTheFireStation("1"), Arrays.asList("a1", "a2", "xxx"));
+        service.removeFirestation(new Firestation("1","xxx"));
+        service.addFirestation(new Firestation("9","yyy"));
+        assertEquals(service.getAdressesCoveredByTheFireStation("9"), Arrays.asList("yyy"));
+        service.removeFirestation(new Firestation("9","yyy"));
     }
 
     @Test
     void testUpdateFirestation() throws IOException
     {
-        assertThrows( EntityDoesNotExistException.class,  () -> service.updateFirestation(new Firestation(9, "xxx")) );
-        assertEquals(service.getFirestationNumberByAdress("a1"), 1);
-        service.updateFirestation(new Firestation(2, "a1"));
-        assertEquals(service.getFirestationNumberByAdress("a1"), 2);
-        service.updateFirestation(new Firestation(1, "a1"));
+        assertThrows( EntityDoesNotExistException.class,  () -> service.updateFirestation(new Firestation("9", "xxx")) );
+        assertEquals(service.getFirestationNumberByAdress("a1"), "1");
+        service.updateFirestation(new Firestation("2", "a1"));
+        assertEquals(service.getFirestationNumberByAdress("a1"), "2");
+        service.updateFirestation(new Firestation("1", "a1"));
     }
 
     @Test
     void testRemoveFirestation() throws IOException
     {
-        assertThrows( EntityDoesNotExistException.class,  () -> service.removeFirestation(new Firestation(9, "xxx")) );
-        assertEquals(service.getFirestationNumberByAdress("a1"), 1);
-        service.removeFirestation(new Firestation(1, "a1"));
+        assertThrows( EntityDoesNotExistException.class,  () -> service.removeFirestation(new Firestation("9", "xxx")) );
+        assertEquals(service.getFirestationNumberByAdress("a1"), "1");
+        service.removeFirestation(new Firestation("1", "a1"));
         assertThrows( EntityDoesNotExistException.class, () -> service.getFirestationNumberByAdress("a1"));
-        service.addFirestation(new Firestation(1, "a1"));
+        service.addFirestation(new Firestation("1", "a1"));
     }
 
     @Test
     void testAvoidDoublon() throws IOException
     {
         List<Firestation> firestationList = service.getList();
-        service.avoidDoublon(new Firestation(1, "xxx"));
+        service.avoidDoublon(new Firestation("1", "xxx"));
         assertEquals(firestationList, service.getList());
-        service.avoidDoublon(new Firestation(2, "a1"));
+        service.avoidDoublon(new Firestation("2", "a1"));
         assertNotEquals(firestationList, service.getList());
-        service.addFirestation(new Firestation(1, "a1"));
+        service.addFirestation(new Firestation("1", "a1"));
     }
 }
